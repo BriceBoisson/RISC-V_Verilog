@@ -33,5 +33,3 @@ add wave -radix unsigned *' >> ./sim/simu.do
 echo 'run -all' >> ./sim/simu.do
 
 exit 0
-
-# CRC - Hamming Code
