@@ -6,7 +6,7 @@ module memory (input clock, reset,
     
     reg [63:0] memory [31:0];
 
-    always @(posedge clock, reset) begin
+    always @(posedge clock, posedge reset) begin
         if (reset == 1)
             memory[0] <= 32'b0;
         else if (we == 1)

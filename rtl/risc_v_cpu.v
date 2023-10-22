@@ -89,7 +89,7 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
 
     program_counter program_counter (
         .clock(clock),
-        .reset(clock),
+        .reset(reset),
         .new_pc(new_pc),
         .pc(pc)
     );
