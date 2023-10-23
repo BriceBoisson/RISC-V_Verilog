@@ -1,6 +1,6 @@
 module registers_bank (input clock, reset, we,
-                       input [4:0] select_d, select_a, select_b,
-                       input [31:0] input_d,
+                       input [4:0] sel_in, sel_out_a, sel_out_b,
+                       input [31:0] data_in,
                        output [31:0] output_a, output_b);
     
     reg [31:0] registers[31:0];
@@ -32,10 +32,10 @@ module registers_bank (input clock, reset, we,
         if (reset == 1)
             registers[0] <= 32'b0;
         else if (we == 1)
-            registers[select_d] <= input_d;
+            registers[sel_in] <= data_in;
     end
 
-    assign output_a = registers[select_a];
-    assign output_b = registers[select_b];
+    assign output_a = registers[sel_out_a];
+    assign output_b = registers[sel_out_b];
 
 endmodule
