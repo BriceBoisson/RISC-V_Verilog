@@ -1,6 +1,6 @@
-module registers_bank (input clock, reset, we,
-                       input [4:0] sel_in, sel_out_a, sel_out_b,
-                       input [31:0] data_in,
+module registers_bank (input         clock, reset, we,
+                       input  [4:0]  sel_in, sel_out_a, sel_out_b,
+                       input  [31:0] data_in,
                        output [31:0] data_out_a, data_out_b);
     
     reg [31:0] registers[31:0];

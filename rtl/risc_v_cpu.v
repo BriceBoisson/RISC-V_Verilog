@@ -1,4 +1,5 @@
-module risc_v_cpu (input clock, reset, output [31:0] out);
+module risc_v_cpu (input         clock, reset,
+                   output [31:0] out);
 
     wire [31:0] instruction;
 
@@ -48,34 +49,34 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .data_out_b(reg_data_out_b)
     );
 
-    mux2_1 mux2_1_1 (
-        .A(reg_data_out_b),
-        .B(imm),
-        .S(alu_src),
-        .O(alu_in_b)
+    mux2_1 mux2_alu_in_b (
+        .in_1(reg_data_out_b),
+        .in_2(imm),
+        .sel(alu_src),
+        .out(alu_in_b)
     );
 
     alu alu (
-        .input_a(reg_data_out_a),
-        .input_b(alu_in_b),
+        .in_a(reg_data_out_a),
+        .in_b(alu_in_b),
         .op_code(alu_func),
         .out(alu_out)
     );
 
-    mux2_1 #(2) mux2_1_2 (
-        .A(pc_is_branch),
-        .B({alu_out[1], (alu_not ? ~alu_out[0] : alu_out[0])}),
-        .S(pc_is_jmp),
-        .O(pc_sel_in)
+    mux2_1 #(2) mux2_pc_sel_branch (
+        .in_1(pc_is_branch),
+        .in_2({alu_out[1], (alu_not ? ~alu_out[0] : alu_out[0])}),
+        .sel(pc_is_jmp),
+        .out(pc_sel_in)
     );
 
-    mux4_1 mux4_1_1 (
-        .A(pc_addr + 4),
-        .B(pc_addr + imm),
-        .C(alu_out),
-        .D(0),
-        .S(pc_sel_in),
-        .O(pc_new_addr)
+    mux4_1 mux4_pc_sel_in (
+        .in_1(pc_addr + 4),
+        .in_2(pc_addr + imm),
+        .in_3(alu_out),
+        .in_4(0),
+        .sel(pc_sel_in),
+        .out(pc_new_addr)
     );
 
     program_counter program_counter (
@@ -99,13 +100,13 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .data_out(mem_out)
     );
 
-    mux4_1 mux4_1_2 (
-        .A(alu_out),
-        .B(mem_out),
-        .C(pc_addr + 4),
-        .D(pc_addr + alu_out),
-        .S(reg_sel_data_in),
-        .O(reg_data_in)
+    mux4_1 mux4_reg_sel_data_in (
+        .in_1(alu_out),
+        .in_2(mem_out),
+        .in_3(pc_addr + 4),
+        .in_4(pc_addr + alu_out),
+        .sel(reg_sel_data_in),
+        .out(reg_data_in)
     );
 
 endmodule

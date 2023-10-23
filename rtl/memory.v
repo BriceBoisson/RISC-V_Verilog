@@ -1,8 +1,8 @@
-module memory (input clock, reset,
-                    input we,
-                    input [31:0] address,
-                    input [31:0] data_in,
-                    output [31:0] data_out);
+module memory (input         clock, reset,
+               input         we,
+               input  [31:0] address,
+               input  [31:0] data_in,
+               output [31:0] data_out);
     
     reg [63:0] memory [31:0];
 
