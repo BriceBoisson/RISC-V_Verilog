@@ -1,39 +1,39 @@
 `timescale 1ns / 1ps
+`include "tb_tools.vh"
 
 module tb_mux2_1 ();
-    reg         ctrl;
-    reg  [31:0] in_a;
-    reg  [31:0] in_b;
+
+    reg         sel;
+    reg  [31:0] in_1;
+    reg  [31:0] in_2;
     wire [31:0] out;
 
     mux2_1 mux (
-        .S(ctrl),
-        .A(in_a),
-        .B(in_b),
-        .O(out)
+        .in_1(in_1),
+        .in_2(in_2),
+        .sel(sel),
+        .out(out)
     );
 
     initial begin
-        $monitor("time=%3d, in_a=%d, in_b=%d, ctrl=%b, q=%d \n",
-                    $time, in_a, in_b, ctrl, out);
+        in_1 = 1'b0;
+        in_2 = 1'b0;
+        sel = 1'b0;
+        `assert("mux in_1: 0, in_2: 0, sel: 0", out, 0)
+        in_1 = 1'b1;
+        `assert("mux in_1: 1, in_2: 0, sel: 0", out, 1)
+        sel = 1'b1;
+        `assert("mux in_1: 1, in_2: 0, sel: 1", out, 0)
+        in_2 = 1'b1;
+        `assert("mux in_1: 1, in_2: 1, sel: 1", out, 1)
+        in_1 = 1'b0;
+        `assert("mux in_1: 0, in_2: 1, sel: 1", out, 1)
+        in_2 = 1'b0;
+        `assert("mux in_1: 0, in_2: 0, sel: 1", out, 0)
+        sel = 1'b0;
+        `assert("mux in_1: 0, in_2: 0, sel: 0", out, 0)
 
-        in_a = 1'b0;
-        in_b = 1'b0;
-        ctrl = 1'b0;
-        #20
-        if (out !== 0) $display("[FAILED] output should be 0");
-        in_a = 1'b1;
-        #20
-        if (out !== 1) $display("[FAILED] output should be 1");
-        ctrl = 1'b1;
-        in_a = 1'b0;
-        in_b = 1'b1;
-        #20
-        if (out !== 1) $display("[FAILED] output should be 1");
-        ctrl = 1'b0;
-        in_a = 1'b1;
-        #20
-        if (out !== 1) $display("[FAILED] output should be 1");
+        `end_message
     end
 
 endmodule : tb_mux2_1

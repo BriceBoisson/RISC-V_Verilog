@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`include "tb_tools.vh"
 
 module tb_risc_v_cpu ();
     reg         clk;

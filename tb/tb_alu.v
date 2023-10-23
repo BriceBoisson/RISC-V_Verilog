@@ -1,9 +1,10 @@
 `timescale 1ns / 1ps
+`include "tb_tools.vh"
 
 module tb_alu ();
     reg  [31:0] in_a;
     reg  [31:0] in_b;
-    reg  [2:0]  op_code;
+    reg  [3:0]  op_code;
     wire [31:0] out;
 
     alu alu (
@@ -14,23 +15,18 @@ module tb_alu ();
     );
 
     initial begin
-        $monitor("time=%3d, in_a=%d, in_b=%d, ctrl=%b, q=%d \n",
-                    $time, in_a, in_b, op_code, out);
+        in_a = 32'b0;
+        in_b = 32'b0;
+        op_code = 4'b0000;
+        `assert("alu : 0 + 0", out, 0)
+        in_a = 32'b1;
+        `assert("alu : 1 + 0", out, 1)
+        in_b = 32'b1;
+        `assert("alu : 1 + 1", out, 2)
+        op_code = 4'b0001;
+        `assert("alu : 1 - 1", out, 0)
 
-        in_a = 1'b0;
-        in_b = 1'b0;
-        op_code = 3'b000;
-        #20
-        if (out !== 0) $display("[FAILED] output should be 0");
-        in_a = 1'b1;
-        #20
-        if (out !== 1) $display("[FAILED] output should be 1");
-        in_b = 1'b1;
-        #20
-        if (out !== 2) $display("[FAILED] output should be 2");
-        op_code = 3'b001;
-        #20
-        if (out !== 2) $display("[FAILED] output should be 2");
+        `end_message
     end
 
 endmodule : tb_alu
