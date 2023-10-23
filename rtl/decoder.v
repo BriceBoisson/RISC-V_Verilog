@@ -9,6 +9,8 @@ module decoder (input [31:0] instruction,
                 output reg [1:0] jmp_pc,
                 output reg b_pc, alu_not);
 
+`include "op_code.vh"
+
 function [3:0] get_op_code_alu(input [2:0] op_code, input arithmetic);
     begin
         case (op_code)
@@ -76,7 +78,7 @@ endfunction
 
     always @(*) begin
         case (instruction[6:2])
-            5'b01100 : begin // OP - Add, ...
+            OP : begin // OP - Add, ...
                 immediate = 0;
                 we_reg = 1;
                 adder_pc = 0;
@@ -91,7 +93,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b00100 : begin // OP-IMM - Addi, ...
+            OP_IMM : begin // OP-IMM - Addi, ...
                 immediate[11:0] = instruction[31:20];
                 immediate[31:12] = (instruction[14:12] == 3'b011 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 1;
@@ -107,7 +109,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b00000 : begin // LOAD - Lw, ...
+            LOAD : begin // LOAD - Lw, ...
                 immediate[11:0] = instruction[31:20];
                 immediate[31:12] = (instruction[14:12] == 3'b100 || instruction[14:12] == 3'b101 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 1;
@@ -123,7 +125,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b01000 : begin // STORE - Sw, ...
+            STORE : begin // STORE - Sw, ...
                 immediate[11:0] = {instruction[31:25], instruction[11:7]};
                 immediate[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 0;
@@ -139,7 +141,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b11000 : begin // BRANCH - Beq, ...
+            BRANCH : begin // BRANCH - Beq, ...
                 immediate[11:0] = {instruction[31:25], instruction[11:7]};
                 immediate[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 0;
@@ -155,7 +157,7 @@ endfunction
                 b_pc = 1;
                 alu_not = branch_not(instruction[14:12]);
             end
-            5'b11011 : begin // JUMP - Jal
+            JAL : begin // JUMP - Jal
                 immediate[19:0] = instruction[31:12];
                 immediate[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
                 we_reg = 1;
@@ -171,9 +173,9 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b11001 : begin // JUMP REG - Jalr
-                immediate[19:0] = instruction[31:12];
-                immediate[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
+            JALR : begin // JUMP REG - Jalr
+                immediate[11:0] = instruction[31:20];
+                immediate[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 1;
                 adder_pc = 0;
                 input_reg = 2'b00;
@@ -187,7 +189,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b01101 : begin // LUI - lui
+            LUI : begin // LUI - lui
                 immediate = {instruction[31:12] << 12, 12'b000000000000};
                 we_reg = 1;
                 adder_pc = 0;
@@ -202,7 +204,7 @@ endfunction
                 b_pc = 0;
                 alu_not = 0;
             end
-            5'b00101 : begin // AUIPC - auipc
+            AUIPC : begin // AUIPC - auipc
                 immediate = {instruction[31:12] << 12, 12'b000000000000};
                 we_reg = 1;
                 adder_pc = 1;
