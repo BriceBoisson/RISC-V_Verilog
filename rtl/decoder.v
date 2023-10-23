@@ -1,6 +1,6 @@
 module decoder (input [31:0] instruction,
                 output reg [31:0] imm,
-                output reg reg_we, adder_pc,
+                output reg reg_we,
                 output reg [1:0] reg_sel_data_in,
                 output reg [4:0] reg_sel_out_a, reg_sel_out_b, reg_sel_in,
                 output reg alu_src,
@@ -81,7 +81,6 @@ endfunction
             OP : begin // OP - Add, ...
                 imm = 0;
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = instruction[24:20];
@@ -97,7 +96,6 @@ endfunction
                 imm[11:0] = instruction[31:20];
                 imm[31:12] = (instruction[14:12] == 3'b011 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = 5'b00000;
@@ -113,7 +111,6 @@ endfunction
                 imm[11:0] = instruction[31:20];
                 imm[31:12] = (instruction[14:12] == 3'b100 || instruction[14:12] == 3'b101 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b01;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = 5'b00000;
@@ -129,7 +126,6 @@ endfunction
                 imm[11:0] = {instruction[31:25], instruction[11:7]};
                 imm[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 reg_we = 0;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = instruction[24:20];
@@ -145,7 +141,6 @@ endfunction
                 imm[11:0] = {instruction[31:25], instruction[11:7]};
                 imm[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 reg_we = 0;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = instruction[24:20];
@@ -161,7 +156,6 @@ endfunction
                 imm[19:0] = instruction[31:12];
                 imm[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b10;
                 reg_sel_out_a = 5'b00000;
                 reg_sel_out_b = 5'b00000;
@@ -177,7 +171,6 @@ endfunction
                 imm[11:0] = instruction[31:20];
                 imm[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b10;
                 reg_sel_out_a = instruction[19:15];
                 reg_sel_out_b = 5'b00000;
@@ -192,7 +185,6 @@ endfunction
             LUI : begin // LUI - lui
                 imm = {instruction[31:12] << 12, 12'b000000000000};
                 reg_we = 1;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = 5'b00000;
                 reg_sel_out_b = 5'b00000;
@@ -207,7 +199,6 @@ endfunction
             AUIPC : begin // AUIPC - auipc
                 imm = {instruction[31:12] << 12, 12'b000000000000};
                 reg_we = 1;
-                adder_pc = 1;
                 reg_sel_data_in = 2'b11;
                 reg_sel_out_a = 5'b00000;
                 reg_sel_out_b = 5'b00000;
@@ -222,7 +213,6 @@ endfunction
             default : begin // NOP
                 imm = 32'b0;
                 reg_we = 0;
-                adder_pc = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = 5'b00000;
                 reg_sel_out_b = 5'b00000;

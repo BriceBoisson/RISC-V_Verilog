@@ -17,13 +17,11 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
     wire [1:0] jmp_pc;
     wire b_pc;
 
-    wire adder_pc;
     wire [31:0] imm;
 
+    wire [1:0]  pc_sel_in;
     wire [31:0] pc_addr;
     wire [31:0] pc_new_addr;
-
-    wire [1:0] pc_in;
 
 
     wire [31:0] pc_store;
@@ -32,7 +30,6 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .instruction(instruction),
         .imm(imm),
         .reg_we(reg_we),
-        .adder_pc(adder_pc),
         .reg_sel_data_in(reg_sel_data_in),
         .reg_sel_out_a(reg_sel_out_a),
         .reg_sel_out_b(reg_sel_out_b),
@@ -75,7 +72,7 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .A(jmp_pc),
         .B({alu_out[1], (alu_not ? ~alu_out[0] : alu_out[0])}),
         .S(b_pc),
-        .O(pc_in)
+        .O(pc_sel_in)
     );
 
     mux4_1 mux4_1_1 (
@@ -83,7 +80,7 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .B(pc_addr + imm),
         .C(alu_out),
         .D(0),
-        .S(pc_in),
+        .S(pc_sel_in),
         .O(pc_new_addr)
     );
 
