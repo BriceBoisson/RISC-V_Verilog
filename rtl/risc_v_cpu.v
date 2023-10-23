@@ -1,24 +1,23 @@
 module risc_v_cpu (input clock, reset, output [31:0] out);
     
-    wire [31:0] alu_in_b;
-    wire [31:0] alu_out;
     wire        alu_src, alu_not;
     wire [3:0]  alu_func;
+    wire [31:0] alu_in_b, alu_out;
 
-    wire        reg_we, adder_pc;
+    wire        reg_we;
     wire [1:0]  reg_sel_data_in;
     wire [4:0]  reg_sel_out_a, reg_sel_out_b, reg_sel_in;
+    wire [31:0] reg_data_out_a, reg_data_out_b, reg_data_in;
 
     wire [31:0] instruction;
 
     wire        mem_we;
+    wire [31:0] mem_out;
 
     wire [1:0] jmp_pc;
     wire b_pc;
 
-    wire [31:0] reg_data_in;
-    wire [31:0] output_a, output_b;
-
+    wire adder_pc;
     wire [31:0] imm;
 
     wire [31:0] pc_addr;
@@ -26,7 +25,6 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
 
     wire [1:0] pc_in;
 
-    wire [31:0] memory_out;
 
     wire [31:0] pc_store;
 
@@ -55,19 +53,19 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .sel_out_a(reg_sel_out_a),
         .sel_out_b(reg_sel_out_b),
         .data_in(reg_data_in),
-        .output_a(output_a),
-        .output_b(output_b)
+        .data_out_a(reg_data_out_a),
+        .data_out_b(reg_data_out_b)
     );
 
     mux2_1 mux2_1_1 (
-        .A(output_b),
+        .A(reg_data_out_b),
         .B(imm),
         .S(alu_src),
         .O(alu_in_b)
     );
 
     alu alu (
-        .input_a(output_a),
+        .input_a(reg_data_out_a),
         .input_b(alu_in_b),
         .op_code(alu_func),
         .out(alu_out)
@@ -106,13 +104,13 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .reset(reset),
         .we(mem_we),
         .address(alu_out),
-        .data_in(output_b),
-        .data_out(memory_out)
+        .data_in(reg_data_out_b),
+        .data_out(mem_out)
     );
 
     mux4_1 mux4_1_2 (
         .A(alu_out),
-        .B(memory_out),
+        .B(mem_out),
         .C(pc_addr + 4),
         .D(pc_addr + alu_out),
         .S(reg_sel_data_in),
