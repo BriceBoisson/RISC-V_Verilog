@@ -1,30 +1,24 @@
 module risc_v_cpu (input clock, reset, output [31:0] out);
-    
-    wire        alu_src, alu_not;
-    wire [3:0]  alu_func;
-    wire [31:0] alu_in_b, alu_out;
+
+    wire [31:0] instruction;
+
+    wire [31:0] imm;
 
     wire        reg_we;
     wire [1:0]  reg_sel_data_in;
     wire [4:0]  reg_sel_out_a, reg_sel_out_b, reg_sel_in;
     wire [31:0] reg_data_out_a, reg_data_out_b, reg_data_in;
 
-    wire [31:0] instruction;
+    wire        alu_src, alu_not;
+    wire [3:0]  alu_func;
+    wire [31:0] alu_in_b, alu_out;
 
     wire        mem_we;
     wire [31:0] mem_out;
 
-    wire [1:0] jmp_pc;
-    wire b_pc;
-
-    wire [31:0] imm;
-
-    wire [1:0]  pc_sel_in;
-    wire [31:0] pc_addr;
-    wire [31:0] pc_new_addr;
-
-
-    wire [31:0] pc_store;
+    wire        pc_is_jmp;
+    wire [1:0]  pc_is_branch, pc_sel_in;
+    wire [31:0] pc_addr, pc_new_addr;
 
     decoder decoder (
         .instruction(instruction),
@@ -37,8 +31,8 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .alu_src(alu_src),
         .alu_func(alu_func),
         .mem_we(mem_we),
-        .jmp_pc(jmp_pc),
-        .b_pc(b_pc),
+        .pc_is_branch(pc_is_branch),
+        .pc_is_jmp(pc_is_jmp),
         .alu_not(alu_not)
     );
 
@@ -69,9 +63,9 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
     );
 
     mux2_1 #(2) mux2_1_2 (
-        .A(jmp_pc),
+        .A(pc_is_branch),
         .B({alu_out[1], (alu_not ? ~alu_out[0] : alu_out[0])}),
-        .S(b_pc),
+        .S(pc_is_jmp),
         .O(pc_sel_in)
     );
 

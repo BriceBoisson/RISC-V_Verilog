@@ -6,8 +6,8 @@ module decoder (input [31:0] instruction,
                 output reg alu_src,
                 output reg [3:0] alu_func,
                 output reg mem_we,
-                output reg [1:0] jmp_pc,
-                output reg b_pc, alu_not);
+                output reg [1:0] pc_is_branch,
+                output reg pc_is_jmp, alu_not);
 
 `include "op_code.vh"
 
@@ -88,8 +88,8 @@ endfunction
                 alu_src = 0;
                 alu_func = get_alu_func(instruction[14:12], instruction[30]);
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             OP_IMM : begin // OP-IMM - Addi, ...
@@ -103,8 +103,8 @@ endfunction
                 alu_src = 1;
                 alu_func = get_alu_func_imm(instruction[14:12], instruction[30]);
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             LOAD : begin // LOAD - Lw, ...
@@ -118,8 +118,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             STORE : begin // STORE - Sw, ...
@@ -133,8 +133,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 1;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             BRANCH : begin // BRANCH - Beq, ...
@@ -148,8 +148,8 @@ endfunction
                 alu_src = 0;
                 alu_func = branch_op_code(instruction[14:12]);
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 1;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 1;
                 alu_not = branch_not(instruction[14:12]);
             end
             JAL : begin // JUMP - Jal
@@ -163,8 +163,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b01;
-                b_pc = 0;
+                pc_is_branch = 2'b01;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             JALR : begin // JUMP REG - Jalr
@@ -178,8 +178,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b10;
-                b_pc = 0;
+                pc_is_branch = 2'b10;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             LUI : begin // LUI - lui
@@ -192,8 +192,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             AUIPC : begin // AUIPC - auipc
@@ -206,8 +206,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
             default : begin // NOP
@@ -220,8 +220,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
-                jmp_pc = 2'b00;
-                b_pc = 0;
+                pc_is_branch = 2'b00;
+                pc_is_jmp = 0;
                 alu_not = 0;
             end
         endcase
