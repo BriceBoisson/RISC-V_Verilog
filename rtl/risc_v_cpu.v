@@ -4,7 +4,7 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
     wire [31:0] alu_out;
 
     wire [31:0] instruction;
-    wire we_reg, adder_pc, data_out;
+    wire we_reg, adder_pc;
     wire [1:0] input_reg;
     wire [4:0] select_a, select_b, select_d;
     wire source_alu;
@@ -32,7 +32,6 @@ module risc_v_cpu (input clock, reset, output [31:0] out);
         .immediate(immediate),
         .we_reg(we_reg),
         .adder_pc(adder_pc),
-        .data_out(data_out),
         .input_reg(input_reg),
         .select_a(select_a),
         .select_b(select_b),

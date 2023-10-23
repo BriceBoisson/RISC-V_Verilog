@@ -1,6 +1,6 @@
 module decoder (input [31:0] instruction,
                 output reg [31:0] immediate,
-                output reg we_reg, adder_pc, data_out,
+                output reg we_reg, adder_pc,
                 output reg [1:0] input_reg,
                 output reg [4:0] select_a, select_b, select_d,
                 output reg source_alu,
@@ -80,7 +80,6 @@ endfunction
                 immediate = 0;
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b01;
                 select_a = instruction[19:15];
                 select_b = instruction[24:20];
@@ -91,14 +90,12 @@ endfunction
                 jmp_pc = 2'b00;
                 b_pc = 0;
                 alu_not = 0;
-                alu_not = 0;
             end
             5'b00100 : begin // OP-IMM - Addi, ...
                 immediate[11:0] = instruction[31:20];
                 immediate[31:12] = (instruction[14:12] == 3'b011 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b01;
                 select_a = instruction[19:15];
                 select_b = 5'b00000;
@@ -115,7 +112,6 @@ endfunction
                 immediate[31:12] = (instruction[14:12] == 3'b100 || instruction[14:12] == 3'b101 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b10;
                 select_a = instruction[19:15];
                 select_b = 5'b00000;
@@ -132,7 +128,6 @@ endfunction
                 immediate[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 0;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b01;
                 select_a = instruction[19:15];
                 select_b = instruction[24:20];
@@ -149,7 +144,6 @@ endfunction
                 immediate[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
                 we_reg = 0;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b01;
                 select_a = instruction[19:15];
                 select_b = instruction[24:20];
@@ -166,7 +160,6 @@ endfunction
                 immediate[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b00;
                 select_a = 5'b00000;
                 select_b = 5'b00000;
@@ -183,7 +176,6 @@ endfunction
                 immediate[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b00;
                 select_a = instruction[19:15];
                 select_b = 5'b00000;
@@ -199,7 +191,6 @@ endfunction
                 immediate = {instruction[31:12] << 12, 12'b000000000000};
                 we_reg = 1;
                 adder_pc = 0;
-                data_out = 1;
                 input_reg = 2'b01;
                 select_a = 5'b00000;
                 select_b = 5'b00000;
@@ -215,12 +206,11 @@ endfunction
                 immediate = {instruction[31:12] << 12, 12'b000000000000};
                 we_reg = 1;
                 adder_pc = 1;
-                data_out = 1;
                 input_reg = 2'b00;
                 select_a = 5'b00000;
                 select_b = 5'b00000;
                 select_d = instruction[11:7];
-                source_alu = 0;
+                source_alu = 1;
                 op_code_alu = 3'b000;
                 mem_we = 0;
                 jmp_pc = 2'b00;
@@ -231,7 +221,6 @@ endfunction
                 immediate = 32'b0;
                 we_reg = 0;
                 adder_pc = 0;
-                data_out = 0;
                 input_reg = 2'b00;
                 select_a = 5'b00000;
                 select_b = 5'b00000;
