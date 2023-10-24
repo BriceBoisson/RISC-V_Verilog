@@ -25,27 +25,45 @@ module tb_risc_v_cpu ();
 
         /* ADDi $1, R[0], R[6] - R[6] = 1 */
         /* "000000000001_00000_000_00110_0010000" */
-        risc_v_cpu.uut_instruction.memory[0] = 32'b00000000000100000000001100010000;
+        risc_v_cpu.uut_instruction.memory[0] = 8'b00010000;
+        risc_v_cpu.uut_instruction.memory[1] = 8'b00000011;
+        risc_v_cpu.uut_instruction.memory[2] = 8'b00010000;
+        risc_v_cpu.uut_instruction.memory[3] = 8'b00000000;
 
         /* ADDi $0, R[0], R[7] - R[7] = 0 */
         /* "000000000000_00000_000_00111_0010000" */
-        risc_v_cpu.uut_instruction.memory[4] = 32'b00000000000000000000001110010000;
+        risc_v_cpu.uut_instruction.memory[4] = 8'b10010000;
+        risc_v_cpu.uut_instruction.memory[5] = 8'b00000011;
+        risc_v_cpu.uut_instruction.memory[6] = 8'b00000000;
+        risc_v_cpu.uut_instruction.memory[7] = 8'b00000000;
 
         /* ADDi $0, R[6],  R[8] - R[8] = R[6] */
         /* "000000000000_00110_000_01000_0010000" */
-        risc_v_cpu.uut_instruction.memory[8] = 32'b00000000000000110000010000010000;
+        risc_v_cpu.uut_instruction.memory[8]  = 8'b00010000;
+        risc_v_cpu.uut_instruction.memory[9]  = 8'b00000100;
+        risc_v_cpu.uut_instruction.memory[10] = 8'b00000011;
+        risc_v_cpu.uut_instruction.memory[11] = 8'b00000000;
 
         /* ADD R[7], R[6], R[6] - R[6] = R[7] + R[6] */
         /* "0000000_00111_00110_000_00110_0110000" */
-        risc_v_cpu.uut_instruction.memory[12] = 32'b00000000011100110000001100110000;
+        risc_v_cpu.uut_instruction.memory[12] = 8'b00110000;
+        risc_v_cpu.uut_instruction.memory[13] = 8'b00000011;
+        risc_v_cpu.uut_instruction.memory[14] = 8'b01110011;
+        risc_v_cpu.uut_instruction.memory[15] = 8'b00000000;
 
         /* ADDi $0, R[8], R[7] - R[7] = R[8] */
         /* "000000000000_01000_000_00111_0010000" */
-        risc_v_cpu.uut_instruction.memory[16] = 32'b00000000000001000000001110010000;
+        risc_v_cpu.uut_instruction.memory[16] = 8'b10010000;
+        risc_v_cpu.uut_instruction.memory[17] = 8'b00000011;
+        risc_v_cpu.uut_instruction.memory[18] = 8'b00000100;
+        risc_v_cpu.uut_instruction.memory[19] = 8'b00000000;
 
         /* JUMP - 12 */
         /* 11111111111111111101_00111_1101100 */
-        risc_v_cpu.uut_instruction.memory[20] = 32'b11111111111111110100001011101100;
+        risc_v_cpu.uut_instruction.memory[20] = 8'b11101100;
+        risc_v_cpu.uut_instruction.memory[21] = 8'b01000010;
+        risc_v_cpu.uut_instruction.memory[22] = 8'b11111111;
+        risc_v_cpu.uut_instruction.memory[23] = 8'b11111111;
 
         `next_cycle
         `assert_no_wait("FIBO INIT: ADDi $1, R[0], R[6] - R[6] = 1", risc_v_cpu.registers_bank.registers[6], 1)
