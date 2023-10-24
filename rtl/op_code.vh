@@ -1,0 +1,9 @@
+parameter [4:0] OP        = 5'b01100;
+parameter [4:0] OP_IMM    = 5'b00100;
+parameter [4:0] LOAD      = 5'b00000;
+parameter [4:0] STORE     = 5'b01000;
+parameter [4:0] BRANCH    = 5'b11000;
+parameter [4:0] JAL       = 5'b11011;
+parameter [4:0] JALR      = 5'b11001;
+parameter [4:0] LUI       = 5'b01101;
+parameter [4:0] AUIPC     = 5'b00101;
