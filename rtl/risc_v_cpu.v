@@ -59,7 +59,7 @@ module risc_v_cpu (input         clock, reset,
     alu alu (
         .in_a(reg_data_out_a),
         .in_b(alu_in_b),
-        .op_code(alu_func),
+        .func(alu_func),
         .out(alu_out)
     );
 

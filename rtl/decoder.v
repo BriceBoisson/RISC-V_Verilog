@@ -12,9 +12,9 @@ module decoder (input [31:0] instruction,
 `include "op_code.vh"
 `include "alu_func.vh"
 
-function [3:0] get_alu_func(input [2:0] op_code, input arithmetic);
+function [3:0] get_alu_func(input [2:0] func, input arithmetic);
     begin
-        case (op_code)
+        case (func)
             3'b000 : get_alu_func = arithmetic ? SUB : ADD;
             3'b001 : get_alu_func = SLL;
             3'b010 : get_alu_func = SLT;
@@ -28,9 +28,9 @@ function [3:0] get_alu_func(input [2:0] op_code, input arithmetic);
     end
 endfunction
 
-function [3:0] get_alu_func_imm(input [2:0] op_code, input arithmetic);
+function [3:0] get_alu_func_imm(input [2:0] func, input arithmetic);
     begin
-        case (op_code)
+        case (func)
             3'b000 : get_alu_func_imm = ADD;
             3'b001 : get_alu_func_imm = SLL;
             3'b010 : get_alu_func_imm = SLT;
@@ -44,23 +44,23 @@ function [3:0] get_alu_func_imm(input [2:0] op_code, input arithmetic);
     end
 endfunction
 
-function [3:0] branch_op_code(input [2:0] op_code);
+function [3:0] branch_func(input [2:0] func);
     begin
-        case (op_code)
-            3'b000 : branch_op_code = 4'b0001;
-            3'b001 : branch_op_code = 4'b0001;
-            3'b010 : branch_op_code = 4'b0011;
-            3'b011 : branch_op_code = 4'b0011;
-            3'b100 : branch_op_code = 4'b0011;
-            3'b101 : branch_op_code = 4'b0011;
-            default : branch_op_code = 4'b0000;
+        case (func)
+            3'b000 : branch_func = 4'b0001;
+            3'b001 : branch_func = 4'b0001;
+            3'b010 : branch_func = 4'b0011;
+            3'b011 : branch_func = 4'b0011;
+            3'b100 : branch_func = 4'b0011;
+            3'b101 : branch_func = 4'b0011;
+            default : branch_func = 4'b0000;
         endcase
     end
 endfunction
 
-function branch_not(input [2:0] op_code);
+function branch_not(input [2:0] func);
     begin
-        case (op_code)
+        case (func)
             3'b000 : branch_not = 1;
             3'b001 : branch_not = 0;
             3'b010 : branch_not = 0;
@@ -145,7 +145,7 @@ endfunction
                 reg_sel_out_b = instruction[24:20];
                 reg_sel_in = 5'b00000;
                 alu_src = 0;
-                alu_func = branch_op_code(instruction[14:12]);
+                alu_func = branch_func(instruction[14:12]);
                 mem_we = 0;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 1;

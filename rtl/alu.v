@@ -1,5 +1,5 @@
 module alu (input      [31:0] in_a, in_b,
-            input      [3:0]  op_code,
+            input      [3:0]  func,
             output reg [31:0] out);
     
     `include "alu_func.vh"
@@ -10,7 +10,7 @@ module alu (input      [31:0] in_a, in_b,
     always@ (*) begin
         s_in_a = in_a;
         s_in_b = in_b;
-        case (op_code)
+        case (func)
             ADD  : out <= in_a + in_b;
             SUB  : out <= in_a - in_b;
             SLL  : out <= in_a << in_b;

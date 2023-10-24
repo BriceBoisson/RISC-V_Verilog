@@ -6,19 +6,19 @@ module tb_alu ();
 
     reg  [31:0] in_a;
     reg  [31:0] in_b;
-    reg  [3:0]  op_code;
+    reg  [3:0]  func;
     wire [31:0] out;
 
     alu alu (
         .in_a(in_a),
         .in_b(in_b),
-        .op_code(op_code),
+        .func(func),
         .out(out)
     );
 
     initial begin
         // ALU - add
-        op_code = ADD;
+        func = ADD;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 + 0", out, 0)
@@ -42,7 +42,7 @@ module tb_alu ();
         `assert("alu : MIN_INT + -1", out, 32'b01111111111111111111111111111111)
 
         // ALU - sub
-        op_code = SUB;
+        func = SUB;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 - 0", out, 0)
@@ -66,7 +66,7 @@ module tb_alu ();
         `assert("alu : MIN_INT - -1", out, 32'b10000000000000000000000000000001)
 
         // ALU - left shift
-        op_code = SLL;
+        func = SLL;
         in_a = 32'b1;
         in_b = 32'b1;
         `assert("alu : 1 << 1", out, 2)
@@ -82,7 +82,7 @@ module tb_alu ();
         `assert("alu : 3 << 31", out, 32'b00000000000000000000000000000000)
 
         // ALU - less than
-        op_code = SLT;
+        func = SLT;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 < 0", out, 0)
@@ -100,7 +100,7 @@ module tb_alu ();
         `assert("alu : MIN_INT << MIN_INT + 1", out, 1)
 
         // ALU - xor
-        op_code = XOR;
+        func = XOR;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 ^ 0", out, 32'b00000000000000000000000000000000)
@@ -120,7 +120,7 @@ module tb_alu ();
         `assert("alu : 00000011001000010001000011000000 ^ 10101111001011101110111111111011", out, 32'b10101100000011111111111100111011)
 
         // ALU - right shift
-        op_code = SRL;
+        func = SRL;
         in_a = 32'b1;
         in_b = 32'b1;
         `assert("alu : 1 >> 1", out, 0)
@@ -139,7 +139,7 @@ module tb_alu ();
         `assert("alu : 1000..111 >> 31", out, 32'b00000000000000000000000000000001)
 
         // ALU - arithmetic right shift
-        op_code = SRA;
+        func = SRA;
         in_a = 32'b1;
         in_b = 32'b1;
         `assert("alu : 1 >>> 1", out, 0)
@@ -158,7 +158,7 @@ module tb_alu ();
         `assert("alu : 1000..111 >>> 31", out, 32'b11111111111111111111111111111111)
 
         // ALU - or
-        op_code = OR;
+        func = OR;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 | 0", out, 32'b00000000000000000000000000000000)
@@ -178,7 +178,7 @@ module tb_alu ();
         `assert("alu : 00000011001000010001000011000000 | 10101111001011101110111111111011", out, 32'b10101111001011111111111111111011)
 
         // ALU - and
-        op_code = AND;
+        func = AND;
         in_a = 32'b0;
         in_b = 32'b0;
         `assert("alu : 0 & 0", out, 32'b00000000000000000000000000000000)
