@@ -10,19 +10,19 @@ module decoder (input [31:0] instruction,
                 output reg pc_is_jmp, alu_not);
 
 `include "op_code.vh"
+`include "alu_func.vh"
 
 function [3:0] get_alu_func(input [2:0] op_code, input arithmetic);
     begin
         case (op_code)
-            3'b000 : get_alu_func = arithmetic ? 4'b0001 : 4'b0000;
-            3'b001 : get_alu_func = 4'b0010;
-            3'b010 : get_alu_func = 4'b0011;
-            3'b011 : get_alu_func = 4'b0011;
-            3'b100 : get_alu_func = 4'b0100;
-            3'b101 : get_alu_func = arithmetic ? 4'b0111 : 4'b0101;
-            3'b110 : get_alu_func = 4'b1000;
-            3'b111 : get_alu_func = 4'b1010;
-            3'b111 : get_alu_func = 4'b1011;
+            3'b000 : get_alu_func = arithmetic ? SUB : ADD;
+            3'b001 : get_alu_func = SLL;
+            3'b010 : get_alu_func = SLT;
+            3'b011 : get_alu_func = SLTU;
+            3'b100 : get_alu_func = XOR;
+            3'b101 : get_alu_func = arithmetic ? SRA : SRL;
+            3'b110 : get_alu_func = OR;
+            3'b111 : get_alu_func = AND;
             default : get_alu_func= 4'b0000;
         endcase
     end
@@ -31,15 +31,14 @@ endfunction
 function [3:0] get_alu_func_imm(input [2:0] op_code, input arithmetic);
     begin
         case (op_code)
-            3'b000 : get_alu_func_imm = 4'b0000;
-            3'b001 : get_alu_func_imm = 4'b0010;
-            3'b010 : get_alu_func_imm = 4'b0011;
-            3'b011 : get_alu_func_imm = 4'b0100;
-            3'b100 : get_alu_func_imm = 4'b0101;
-            3'b101 : get_alu_func_imm = arithmetic ? 4'b1000 : 4'b0111;
-            3'b110 : get_alu_func_imm = 4'b1001;
-            3'b111 : get_alu_func_imm = 4'b1010;
-            3'b111 : get_alu_func_imm = 4'b1011;
+            3'b000 : get_alu_func_imm = ADD;
+            3'b001 : get_alu_func_imm = SLL;
+            3'b010 : get_alu_func_imm = SLT;
+            3'b011 : get_alu_func_imm = SLTU;
+            3'b100 : get_alu_func_imm = XOR;
+            3'b101 : get_alu_func_imm = arithmetic ? SRA : SRL;
+            3'b110 : get_alu_func_imm = OR;
+            3'b111 : get_alu_func_imm = AND;
             default : get_alu_func_imm = 4'b0000;
         endcase
     end

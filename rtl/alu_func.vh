@@ -1,0 +1,10 @@
+parameter [3:0] ADD     = 4'b0000;
+parameter [3:0] SUB     = 4'b0001;
+parameter [3:0] SLL     = 4'b0010;
+parameter [3:0] SLT     = 4'b0011;
+parameter [3:0] SLTU    = 4'b0100;
+parameter [3:0] XOR     = 4'b0101;
+parameter [3:0] SRL     = 4'b0110;
+parameter [3:0] SRA     = 4'b0111;
+parameter [3:0] OR      = 4'b1000;
+parameter [3:0] AND     = 4'b1001;
