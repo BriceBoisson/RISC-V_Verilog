@@ -1,5 +1,5 @@
 `define assert(message, expected, got) \
-    #20 \
+    #4 \
     if(expected !== got) begin \
         $display("\033[0;31m[FAILED]\033[0m : %s - got: %d, expected: %d", message, expected, got); \
     end
