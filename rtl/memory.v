@@ -4,7 +4,7 @@ module memory (input         clock, reset,
                input  [31:0] data_in,
                output [31:0] data_out);
     
-    reg [7:0] memory [63:0];
+    reg [7:0] memory [127:0];
 
     always @(posedge clock, posedge reset) begin
         if (reset == 1)

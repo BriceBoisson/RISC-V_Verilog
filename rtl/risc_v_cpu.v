@@ -65,7 +65,7 @@ module risc_v_cpu (input         clock, reset,
 
     mux2_1 #(2) mux2_pc_sel_branch (
         .in_1(pc_is_branch),
-        .in_2({alu_out[1], (alu_not ? ~alu_out[0] : alu_out[0])}),
+        .in_2({0, (alu_not ? (~alu_out != 32'b0 ? 1 : 0) : (alu_out != 0 ? 1 : 0))}),
         .sel(pc_is_jmp),
         .out(pc_sel_in)
     );

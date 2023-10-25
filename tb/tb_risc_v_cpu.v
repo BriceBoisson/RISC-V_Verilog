@@ -178,6 +178,102 @@ module tb_risc_v_cpu ();
         `assert_no_wait("FIBO VALUE 12: 144", risc_v_cpu.registers_bank.registers[7], 144)
         `assert_no_wait("FIBO CYCLE 12: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
 
+        /* Reset */
+        reset = 1'b1;
+        #10
+        reset = 1'b0;
+
+        clk = 1'b0;
+
+        /* BUBBLE SORT
+        int len = 10;
+        int array[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+
+        for (int i = len - 1; i > 0; i--)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (array[j] > array[j + 1])
+                {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            } 
+        }
+        */
+
+        /* BUBBLE SORT */
+
+        /* ADDi $10, R[0], R[1] - R[1] = 10 */
+        /* "000000001010_00000_000_00001_0010000" */
+        risc_v_cpu.uut_instruction.memory[0] = 8'b10010000;
+        risc_v_cpu.uut_instruction.memory[1] = 8'b00000000;
+        risc_v_cpu.uut_instruction.memory[2] = 8'b10100000;
+        risc_v_cpu.uut_instruction.memory[3] = 8'b00000000;
+
+        /* ADDi $10, R[0], R[2] - R[2] = 10 */
+        /* "000000001010_00000_000_00010_0010000" */
+        risc_v_cpu.uut_instruction.memory[4] = 8'b00010000;
+        risc_v_cpu.uut_instruction.memory[5] = 8'b00000001;
+        risc_v_cpu.uut_instruction.memory[6] = 8'b10100000;
+        risc_v_cpu.uut_instruction.memory[7] = 8'b00000000;
+
+        /* ADDi $0, R[0], R[3] - R[2] = 10 */
+        /* "000000000000_00000_000_00011_0010000" */
+        risc_v_cpu.uut_instruction.memory[8] = 8'b10010000;
+        risc_v_cpu.uut_instruction.memory[9] = 8'b00000001;
+        risc_v_cpu.uut_instruction.memory[10] = 8'b00000000;
+        risc_v_cpu.uut_instruction.memory[11] = 8'b00000000;
+
+        /* STR $0, R[0], R[2], MEM[0] = 10 */
+        /* "0000000_00010_00000_000_00000_0100000" */
+        risc_v_cpu.uut_instruction.memory[12] = 8'b00100000;
+        risc_v_cpu.uut_instruction.memory[13] = 8'b00000000;
+        risc_v_cpu.uut_instruction.memory[14] = 8'b00100000;
+        risc_v_cpu.uut_instruction.memory[15] = 8'b00000000;
+
+        /* ADDi $-1, R[2], R[2] - R[2] = 9 */
+        /* "111111111111_00010_000_00010_0010000" */
+        risc_v_cpu.uut_instruction.memory[16] = 8'b00010000;
+        risc_v_cpu.uut_instruction.memory[17] = 8'b00000001;
+        risc_v_cpu.uut_instruction.memory[18] = 8'b11110001;
+        risc_v_cpu.uut_instruction.memory[19] = 8'b11111111;
+
+        /* ADDi $1, R[3], R[3] - R[3] = 1 */
+        /* "000000000001_00011_000_00011_0010000" */
+        risc_v_cpu.uut_instruction.memory[20] = 8'b10010000;
+        risc_v_cpu.uut_instruction.memory[21] = 8'b10000001;
+        risc_v_cpu.uut_instruction.memory[22] = 8'b00010001;
+        risc_v_cpu.uut_instruction.memory[23] = 8'b00000000;
+
+        /* BNE -8, R[0], R[2] - R[2] = 9 */
+        /* "1111111_00010_00000_001_10111_1100000" */
+        risc_v_cpu.uut_instruction.memory[24] = 8'b01100000;
+        risc_v_cpu.uut_instruction.memory[25] = 8'b00011100;
+        risc_v_cpu.uut_instruction.memory[26] = 8'b00100000;
+        risc_v_cpu.uut_instruction.memory[27] = 8'b11111110;
+
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+        `next_cycle
+
         `end_message
     end
 

@@ -93,7 +93,7 @@ endfunction
             end
             OP_IMM : begin // OP-IMM - Addi, ...
                 imm[11:0] = instruction[31:20];
-                imm[31:12] = (instruction[14:12] == 3'b011 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
+                imm[31:12] = (instruction[14:12] == 3'b011 || instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 1;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
@@ -108,7 +108,7 @@ endfunction
             end
             LOAD : begin // LOAD - Lw, ...
                 imm[11:0] = instruction[31:20];
-                imm[31:12] = (instruction[14:12] == 3'b100 || instruction[14:12] == 3'b101 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
+                imm[31:12] = (instruction[14:12] == 3'b100 || instruction[14:12] == 3'b101 || instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 1;
                 reg_sel_data_in = 2'b01;
                 reg_sel_out_a = instruction[19:15];
@@ -123,7 +123,7 @@ endfunction
             end
             STORE : begin // STORE - Sw, ...
                 imm[11:0] = {instruction[31:25], instruction[11:7]};
-                imm[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
+                imm[31:12] = (instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
@@ -138,7 +138,7 @@ endfunction
             end
             BRANCH : begin // BRANCH - Beq, ...
                 imm[11:0] = {instruction[31:25], instruction[11:7]};
-                imm[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
+                imm[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 0;
                 reg_sel_data_in = 2'b00;
                 reg_sel_out_a = instruction[19:15];
@@ -168,7 +168,7 @@ endfunction
             end
             JALR : begin // JUMP REG - Jalr
                 imm[11:0] = instruction[31:20];
-                imm[31:12] = (instruction[31] == 0) ? 12'b00000000000000000000 : 12'b11111111111111111111;
+                imm[31:12] = (instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 1;
                 reg_sel_data_in = 2'b10;
                 reg_sel_out_a = instruction[19:15];
