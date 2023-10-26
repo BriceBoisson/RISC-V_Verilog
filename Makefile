@@ -9,6 +9,8 @@ simulation:
 
 clean:
 	rm -rf sim/work
+	rm -rf work
 	rm -rf sim/transcript
+	rm -rf transcript
 	rm -rf sim/vsim.wlf
 	rm -rf sim/simu.do

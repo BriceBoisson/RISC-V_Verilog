@@ -26,7 +26,7 @@ vlog ../tb/tb_'"$FILE_NAME"'.v
 ' >> ./sim/simu.do
 
 echo 'vsim tb_'"$FILE_NAME"'
-add wave -radix unsigned *' >> ./sim/simu.do
+' >> ./sim/simu.do
 
 # loop through all arguments from $3
 

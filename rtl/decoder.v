@@ -50,12 +50,12 @@ endfunction
 function [3:0] branch_func(input [2:0] func);
     begin
         case (func)
-            3'b000 : branch_func = 4'b0001;
-            3'b001 : branch_func = 4'b0001;
-            3'b010 : branch_func = 4'b0011;
-            3'b011 : branch_func = 4'b0011;
-            3'b100 : branch_func = 4'b0011;
-            3'b101 : branch_func = 4'b0011;
+            3'b000 : branch_func = SUB;
+            3'b001 : branch_func = SUB;
+            3'b100 : branch_func = SLT;
+            3'b101 : branch_func = SLT;
+            3'b110 : branch_func = SLTU;
+            3'b111 : branch_func = SLTU;
             default : branch_func = 4'b0000;
         endcase
     end
@@ -66,10 +66,10 @@ function branch_not(input [2:0] func);
         case (func)
             3'b000 : branch_not = 1;
             3'b001 : branch_not = 0;
-            3'b010 : branch_not = 0;
-            3'b011 : branch_not = 1;
             3'b100 : branch_not = 0;
             3'b101 : branch_not = 1;
+            3'b110 : branch_not = 0;
+            3'b111 : branch_not = 1;
             default : branch_not = 0;
         endcase
     end

@@ -4,7 +4,6 @@
 module tb_registers_bank ();
     reg         clk;
     reg         reset;
-    integer     i;
     reg         we;
     reg  [4:0]  sel_in;
     reg  [4:0]  sel_out_a;
