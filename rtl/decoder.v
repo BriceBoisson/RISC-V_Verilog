@@ -6,11 +6,14 @@ module decoder (input [31:0] instruction,
                 output reg alu_src,
                 output reg [3:0] alu_func,
                 output reg mem_we,
+                output reg [1:0] mem_func_in,
+                output reg [2:0] mem_func_out,
                 output reg [1:0] pc_is_branch,
                 output reg pc_is_jmp, alu_not);
 
 `include "op_code.vh"
 `include "alu_func.vh"
+`include "mem_func.vh"
 
 function [3:0] get_alu_func(input [2:0] func, input arithmetic);
     begin
@@ -74,7 +77,6 @@ endfunction
 
     // TODO - Manage ALU OP CODE and IMM Extension
 
-
     always @(*) begin
         case (instruction[6:2])
             OP : begin // OP - Add, ...
@@ -87,6 +89,8 @@ endfunction
                 alu_src = 0;
                 alu_func = get_alu_func(instruction[14:12], instruction[30]);
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -102,6 +106,8 @@ endfunction
                 alu_src = 1;
                 alu_func = get_alu_func_imm(instruction[14:12], instruction[30]);
                 mem_we = 0;
+                mem_func_in = instruction[13:12];
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -117,6 +123,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = instruction[14:12];
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -132,6 +140,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 1;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -147,6 +157,8 @@ endfunction
                 alu_src = 0;
                 alu_func = branch_func(instruction[14:12]);
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 1;
                 alu_not = branch_not(instruction[14:12]);
@@ -162,6 +174,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b01;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -177,6 +191,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b10;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -191,6 +207,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -205,6 +223,8 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;
@@ -219,6 +239,8 @@ endfunction
                 alu_src = 0;
                 alu_func = 3'b000;
                 mem_we = 0;
+                mem_func_in = 2'b00;
+                mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
                 alu_not = 0;

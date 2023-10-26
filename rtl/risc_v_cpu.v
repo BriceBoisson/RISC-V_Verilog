@@ -15,6 +15,8 @@ module risc_v_cpu (input         clock, reset,
     wire [31:0] alu_in_b, alu_out;
 
     wire        mem_we;
+    wire [1:0]  mem_func_in;
+    wire [2:0]  mem_func_out;
     wire [31:0] mem_out;
 
     wire        pc_is_jmp;
@@ -32,6 +34,8 @@ module risc_v_cpu (input         clock, reset,
         .alu_src(alu_src),
         .alu_func(alu_func),
         .mem_we(mem_we),
+        .mem_func_in(mem_func_in),
+        .mem_func_out(mem_func_out),
         .pc_is_branch(pc_is_branch),
         .pc_is_jmp(pc_is_jmp),
         .alu_not(alu_not)
@@ -65,7 +69,7 @@ module risc_v_cpu (input         clock, reset,
 
     mux2_1 #(2) mux2_pc_sel_branch (
         .in_1(pc_is_branch),
-        .in_2({0, (alu_not ? (~alu_out != 32'b0 ? 1 : 0) : (alu_out != 0 ? 1 : 0))}),
+        .in_2({1'b0, (alu_not ? (~alu_out != 32'b0 ? 1'b1 : 1'b0) : (alu_out != 0 ? 1'b1 : 1'b0))}),
         .sel(pc_is_jmp),
         .out(pc_sel_in)
     );
@@ -95,6 +99,8 @@ module risc_v_cpu (input         clock, reset,
         .clock(clock),
         .reset(reset),
         .we(mem_we),
+        .func_in(mem_func_in),
+        .func_out(mem_func_out),
         .address(alu_out),
         .data_in(reg_data_out_b),
         .data_out(mem_out)
