@@ -66,117 +66,117 @@ module tb_risc_v_cpu ();
         risc_v_cpu.uut_instruction.memory[23] = 8'b11111111;
 
         `next_cycle
-        `assert_no_wait("FIBO INIT: ADDi $1, R[0], R[6] - R[6] = 1", risc_v_cpu.registers_bank.registers[6], 1)
+        `assert_no_wait("FIBO INIT: ADDi $1, R[0], R[6] - R[6] = 1", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 1)
         `next_cycle
-        `assert_no_wait("FIBO INIT: ADDi $0, R[0], R[7] - R[7] = 0", risc_v_cpu.registers_bank.registers[7], 0)
+        `assert_no_wait("FIBO INIT: ADDi $0, R[0], R[7] - R[7] = 0", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 0)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 1: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 1)
+        `assert_no_wait("FIBO CYCLE 1: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 1)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 1: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 1)
+        `assert_no_wait("FIBO CYCLE 1: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 1)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 1: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 1)
+        `assert_no_wait("FIBO CYCLE 1: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 1)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 1: 1", risc_v_cpu.registers_bank.registers[7], 1)
-        `assert_no_wait("FIBO CYCLE 1: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 1: 1", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 1)
+        `assert_no_wait("FIBO CYCLE 1: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 2: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 1)
+        `assert_no_wait("FIBO CYCLE 2: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 1)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 2: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 2)
+        `assert_no_wait("FIBO CYCLE 2: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 2)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 2: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 1)
+        `assert_no_wait("FIBO CYCLE 2: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 1)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 2: 1", risc_v_cpu.registers_bank.registers[7], 1)
-        `assert_no_wait("FIBO CYCLE 2: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 2: 1", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 1)
+        `assert_no_wait("FIBO CYCLE 2: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 3: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 2)
+        `assert_no_wait("FIBO CYCLE 3: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 2)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 3: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 3)
+        `assert_no_wait("FIBO CYCLE 3: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 3)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 3: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 2)
+        `assert_no_wait("FIBO CYCLE 3: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 2)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 3: 2", risc_v_cpu.registers_bank.registers[7], 2)
-        `assert_no_wait("FIBO CYCLE 3: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 3: 2", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 2)
+        `assert_no_wait("FIBO CYCLE 3: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 4: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 3)
+        `assert_no_wait("FIBO CYCLE 4: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 3)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 4: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 5)
+        `assert_no_wait("FIBO CYCLE 4: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 5)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 4: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 3)
+        `assert_no_wait("FIBO CYCLE 4: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 3)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 4: 3", risc_v_cpu.registers_bank.registers[7], 3)
-        `assert_no_wait("FIBO CYCLE 4: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 4: 3", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 3)
+        `assert_no_wait("FIBO CYCLE 4: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 5: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 5)
+        `assert_no_wait("FIBO CYCLE 5: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 5)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 5: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 8)
+        `assert_no_wait("FIBO CYCLE 5: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 5: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 5)
+        `assert_no_wait("FIBO CYCLE 5: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 5)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 5: 5", risc_v_cpu.registers_bank.registers[7], 5)
-        `assert_no_wait("FIBO CYCLE 5: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 5: 5", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 5)
+        `assert_no_wait("FIBO CYCLE 5: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 6: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 8)
+        `assert_no_wait("FIBO CYCLE 6: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 6: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 13)
+        `assert_no_wait("FIBO CYCLE 6: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 13)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 6: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 8)
+        `assert_no_wait("FIBO CYCLE 6: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 8)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 6: 8", risc_v_cpu.registers_bank.registers[7], 8)
-        `assert_no_wait("FIBO CYCLE 6: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 6: 8", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 8)
+        `assert_no_wait("FIBO CYCLE 6: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 7: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 13)
+        `assert_no_wait("FIBO CYCLE 7: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 13)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 7: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 21)
+        `assert_no_wait("FIBO CYCLE 7: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 21)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 7: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 13)
+        `assert_no_wait("FIBO CYCLE 7: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 13)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 7: 13", risc_v_cpu.registers_bank.registers[7], 13)
-        `assert_no_wait("FIBO CYCLE 7: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 7: 13", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 13)
+        `assert_no_wait("FIBO CYCLE 7: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 8: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 21)
+        `assert_no_wait("FIBO CYCLE 8: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 21)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 8: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 34)
+        `assert_no_wait("FIBO CYCLE 8: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 34)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 8: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 21)
+        `assert_no_wait("FIBO CYCLE 8: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 21)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 8: 21", risc_v_cpu.registers_bank.registers[7], 21)
-        `assert_no_wait("FIBO CYCLE 8: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 8: 21", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 21)
+        `assert_no_wait("FIBO CYCLE 8: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 9: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 34)
+        `assert_no_wait("FIBO CYCLE 9: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 34)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 9: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 55)
+        `assert_no_wait("FIBO CYCLE 9: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 55)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 9: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 34)
+        `assert_no_wait("FIBO CYCLE 9: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 34)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 9: 34", risc_v_cpu.registers_bank.registers[7], 34)
-        `assert_no_wait("FIBO CYCLE 9: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 9: 34", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 34)
+        `assert_no_wait("FIBO CYCLE 9: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 10: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 55)
+        `assert_no_wait("FIBO CYCLE 10: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 55)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 10: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 89)
+        `assert_no_wait("FIBO CYCLE 10: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 89)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 10: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 55)
+        `assert_no_wait("FIBO CYCLE 10: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 55)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 10: 55", risc_v_cpu.registers_bank.registers[7], 55)
-        `assert_no_wait("FIBO CYCLE 10: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 10: 55", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 55)
+        `assert_no_wait("FIBO CYCLE 10: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 11: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 89)
+        `assert_no_wait("FIBO CYCLE 11: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 89)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 11: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 144)
+        `assert_no_wait("FIBO CYCLE 11: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 144)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 11: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 89)
+        `assert_no_wait("FIBO CYCLE 11: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 89)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 11: 89", risc_v_cpu.registers_bank.registers[7], 89)
-        `assert_no_wait("FIBO CYCLE 11: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 11: 89", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 89)
+        `assert_no_wait("FIBO CYCLE 11: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 12: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.registers_bank.registers[8], 144)
+        `assert_no_wait("FIBO CYCLE 12: ADDi $0, R[6],  R[8] - R[8] = R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[8], 144)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 12: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.registers_bank.registers[6], 233)
+        `assert_no_wait("FIBO CYCLE 12: ADD R[7], R[6], R[6] - R[6] = R[7] + R[6]", risc_v_cpu.module_registers_bank.registers_bank.registers[6], 233)
         `next_cycle
-        `assert_no_wait("FIBO CYCLE 12: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.registers_bank.registers[7], 144)
+        `assert_no_wait("FIBO CYCLE 12: ADDi $0, R[8], R[7] - R[7] = R[8]", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 144)
         `next_cycle
-        `assert_no_wait("FIBO VALUE 12: 144", risc_v_cpu.registers_bank.registers[7], 144)
-        `assert_no_wait("FIBO CYCLE 12: JUMP - 12", risc_v_cpu.program_counter.pc_addr, 8)
+        `assert_no_wait("FIBO VALUE 12: 144", risc_v_cpu.module_registers_bank.registers_bank.registers[7], 144)
+        `assert_no_wait("FIBO CYCLE 12: JUMP - 12", risc_v_cpu.module_program_counter.program_counter.pc_addr, 8)
 
         /* Reset */
         reset = 1'b1;
@@ -339,7 +339,7 @@ module tb_risc_v_cpu ();
         `assert_no_wait("BUBBLE SORT - MEM[7]: 8", risc_v_cpu.memory.memory[7], 8)
         `assert_no_wait("BUBBLE SORT - MEM[8]: 9", risc_v_cpu.memory.memory[8], 9)
         `assert_no_wait("BUBBLE SORT - MEM[9]: 10", risc_v_cpu.memory.memory[9], 10)
-        `assert_no_wait("BUBBLE SORT - PROGRAM EXITED - PC: 76", risc_v_cpu.program_counter.pc_addr, 76)
+        `assert_no_wait("BUBBLE SORT - PROGRAM EXITED - PC: 76", risc_v_cpu.module_program_counter.program_counter.pc_addr, 76)
 
         `end_message
     end
