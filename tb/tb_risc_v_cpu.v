@@ -59,10 +59,10 @@ module tb_risc_v_cpu ();
         risc_v_cpu.uut_instruction.memory[19] = 8'b00000000;
 
         /* JUMP - 12 */
-        /* 11111111111111111101_00111_1101100 */
+        /* 11111111010111111111_00111_1101100 */
         risc_v_cpu.uut_instruction.memory[20] = 8'b11101100;
-        risc_v_cpu.uut_instruction.memory[21] = 8'b01000010;
-        risc_v_cpu.uut_instruction.memory[22] = 8'b11111111;
+        risc_v_cpu.uut_instruction.memory[21] = 8'b11110010;
+        risc_v_cpu.uut_instruction.memory[22] = 8'b01011111;
         risc_v_cpu.uut_instruction.memory[23] = 8'b11111111;
 
         `next_cycle
@@ -248,8 +248,8 @@ module tb_risc_v_cpu ();
         risc_v_cpu.uut_instruction.memory[27] = 8'b00000000;
 
         /* BNE -12, R[0], R[2] - PC = PC - 12 */
-        /* "1111111_00010_00000_001_10100_1100000" */
-        risc_v_cpu.uut_instruction.memory[28] = 8'b01100000;
+        /* "1111111_00010_00000_001_10101_1100000" */
+        risc_v_cpu.uut_instruction.memory[28] = 8'b11100000;
         risc_v_cpu.uut_instruction.memory[29] = 8'b00011010;
         risc_v_cpu.uut_instruction.memory[30] = 8'b00100000;
         risc_v_cpu.uut_instruction.memory[31] = 8'b11111110;
@@ -276,8 +276,8 @@ module tb_risc_v_cpu ();
         risc_v_cpu.uut_instruction.memory[43] = 8'b00000000;
 
         /* BNE 12, R[4], R[3] - PC = PC + 12 */
-        /* "0000000_00100_00011_100_01100_1100000" */
-        risc_v_cpu.uut_instruction.memory[44] = 8'b01100000;
+        /* "0000000_00100_00011_100_01101_1100000" */
+        risc_v_cpu.uut_instruction.memory[44] = 8'b11100000;
         risc_v_cpu.uut_instruction.memory[45] = 8'b11000110;
         risc_v_cpu.uut_instruction.memory[46] = 8'b01000001;
         risc_v_cpu.uut_instruction.memory[47] = 8'b00000000;
@@ -304,8 +304,8 @@ module tb_risc_v_cpu ();
         risc_v_cpu.uut_instruction.memory[59] = 8'b00000000;
 
         /* BNE -xx, R[1], R[2] - PC = PC - 8 */
-        /* "1111111_00010_00001_001_01000_1100000" */
-        risc_v_cpu.uut_instruction.memory[60] = 8'b01100000;
+        /* "1111111_00010_00001_001_01001_1100000" */
+        risc_v_cpu.uut_instruction.memory[60] = 8'b11100000;
         risc_v_cpu.uut_instruction.memory[61] = 8'b10010100;
         risc_v_cpu.uut_instruction.memory[62] = 8'b00100000;
         risc_v_cpu.uut_instruction.memory[63] = 8'b11111110;
@@ -319,8 +319,8 @@ module tb_risc_v_cpu ();
 
 
         /* BNE -36, R[0], R[1] - PC = PC - 8 */
-        /* "1111111_00001_00000_001_100000_1100000" */
-        risc_v_cpu.uut_instruction.memory[68] = 8'b01100000;
+        /* "1111111_00001_00000_001_10001_1100000" */
+        risc_v_cpu.uut_instruction.memory[68] = 8'b11100000;
         risc_v_cpu.uut_instruction.memory[69] = 8'b10011110;
         risc_v_cpu.uut_instruction.memory[70] = 8'b00000000;
         risc_v_cpu.uut_instruction.memory[71] = 8'b11111100;
