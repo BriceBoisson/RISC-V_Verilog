@@ -5,7 +5,8 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-FILE_NAME=$1
+TB_FILE_NAME=tb_$1
+FILE_NAME=$(echo "$1" | sed 's/\([[:alnum:]_]*\)[-.].*/\1/')
 
 echo 'puts "Simulation script for ModelSim"
 ' > ./sim/simu.do
@@ -15,14 +16,14 @@ if [ ! -f "rtl/""$FILE_NAME"".v" ]; then
     echo "Error: $FILE_NAME.v file not found!"
     exit 1
 fi
-if [ ! -f "tb/tb_""$FILE_NAME"".v" ]; then
-    echo "Error: tb_$FILE_NAME.v file not found!"
+if [ ! -f "tb/""$TB_FILE_NAME"".v" ]; then
+    echo "Error: ""$TB_FILE_NAME"".v file not found!"
     exit 1
 fi
 
 echo 'vlib work
 vlog ../rtl/*.v
-vlog ../tb/tb_'"$FILE_NAME"'.v
+vlog ../tb/'"$TB_FILE_NAME"'.v
 ' >> ./sim/simu.do
 
 echo 'vsim tb_'"$FILE_NAME"'
