@@ -31,7 +31,7 @@ module tb_risc_v_cpu ();
         /* Loading Test From File */
 
         /* Loading Binary File */
-        bin_file_inputs = $fopen("/home/brice/Code/RISC-V_VERILOG/tb/test.bin", "r");
+        bin_file_inputs = $fopen("./../tb/test_source_code/tb_riscv_cpu/test.bin", "r");
         if (bin_file_inputs == 0) begin
             $display("data_file handle was NULL");
             $finish;
@@ -59,10 +59,6 @@ module tb_risc_v_cpu ();
                 i = i + 4;
             end
         end
-        `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[0], 8'b00000000)
-        `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[1], 8'b11000101)
-        `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[2], 8'b10000111)
-        `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[3], 8'b10110011)
 
         for (i = 0; i < 100; i = i + 1) begin
             `next_cycle
@@ -70,7 +66,7 @@ module tb_risc_v_cpu ();
         end
 
         // final test
-        `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.memory.memory[0], 8'b00000000)
+        `assert_no_wait("FOR LOOP - REG[5]: 1", risc_v_cpu.registers_bank.registers[5], 32'b1010)
         
         `end_message
     end
