@@ -147,7 +147,7 @@ endfunction
                 alu_not = 0;
             end
             BRANCH : begin // BRANCH - Beq, ...
-                imm[11:0] = {instruction[31:25], instruction[11:7]};
+                imm[11:0] = {instruction[7], instruction[30:25], instruction[11:8], 1'b0};
                 imm[31:12] = (instruction[14:12] == 3'b110 || instruction[14:12] == 3'b111 || instruction[31] == 0) ? 20'b00000000000000000000 : 20'b11111111111111111111;
                 reg_we = 0;
                 reg_sel_data_in = 2'b00;
@@ -164,7 +164,7 @@ endfunction
                 alu_not = branch_not(instruction[14:12]);
             end
             JAL : begin // JUMP - Jal
-                imm[19:0] = instruction[31:12];
+                imm[19:0] = {instruction[31], instruction[19:12], instruction[20], instruction[30:25], instruction[24:21], 1'b0};
                 imm[31:20] = (instruction[31] == 0) ? 12'b000000000000 : 12'b111111111111;
                 reg_we = 1;
                 reg_sel_data_in = 2'b10;
