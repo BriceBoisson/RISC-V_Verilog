@@ -44,6 +44,7 @@ module tb_risc_v_cpu ();
             read_instruction_2 = $fgetc(bin_file_inputs);
             read_instruction_3 = $fgetc(bin_file_inputs);
             read_instruction_4 = $fgetc(bin_file_inputs);
+            $display("read_instruction_1: %b", read_instruction_1);
 
             if (
                 read_instruction_1[8] != 1'b1 &&
@@ -51,10 +52,10 @@ module tb_risc_v_cpu ();
                 read_instruction_3[8] != 1'b1 &&
                 read_instruction_4[8] != 1'b1
             ) begin
-                risc_v_cpu.uut_instruction.memory[i]   = read_instruction_4[7:0];
-                risc_v_cpu.uut_instruction.memory[i+1] = read_instruction_3[7:0];
-                risc_v_cpu.uut_instruction.memory[i+2] = read_instruction_2[7:0];
-                risc_v_cpu.uut_instruction.memory[i+3] = read_instruction_1[7:0];
+                risc_v_cpu.uut_instruction.memory[i]   = read_instruction_1[7:0];
+                risc_v_cpu.uut_instruction.memory[i+1] = read_instruction_2[7:0];
+                risc_v_cpu.uut_instruction.memory[i+2] = read_instruction_3[7:0];
+                risc_v_cpu.uut_instruction.memory[i+3] = read_instruction_4[7:0];
                 i = i + 4;
             end
         end
@@ -63,7 +64,7 @@ module tb_risc_v_cpu ();
         `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[2], 8'b10000111)
         `assert_no_wait("BUBBLE SORT - MEM[0]: 1", risc_v_cpu.uut_instruction.memory[3], 8'b10110011)
 
-        for (i = 0; i < 1; i = i + 1) begin
+        for (i = 0; i < 100; i = i + 1) begin
             `next_cycle
             // run
         end

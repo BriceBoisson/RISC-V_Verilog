@@ -14,3 +14,6 @@ clean:
 	rm -rf transcript
 	rm -rf sim/vsim.wlf
 	rm -rf sim/simu.do
+	rm -rf tb/test_source_code/**/*.bin
+	rm -rf tb/test_source_code/**/*.elf
+	rm -rf tb/test_source_code/**/*.o

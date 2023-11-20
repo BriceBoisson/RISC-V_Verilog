@@ -17,5 +17,7 @@ fi
 NAME=$1
 
 riscv32-unknown-elf-as -march=rv32i -mabi=ilp32 ${NAME}.S -o ${NAME}.o
-riscv32-unknown-elf-ld -Ttext=0x1000 ${NAME}.o -o ${NAME}.elf
+riscv32-unknown-elf-ld -Ttext=0x0 ${NAME}.o -o ${NAME}.elf
 riscv32-unknown-elf-objcopy -O binary ${NAME}.elf ${NAME}.bin
+
+# rm -rf ${NAME}.o ${NAME}.elf
