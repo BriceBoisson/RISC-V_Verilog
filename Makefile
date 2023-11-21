@@ -17,3 +17,4 @@ clean:
 	rm -rf tb/test_source_code/**/*.bin
 	rm -rf tb/test_source_code/**/*.elf
 	rm -rf tb/test_source_code/**/*.o
+	rm -rf tb/test_source_code/**/*.tmp

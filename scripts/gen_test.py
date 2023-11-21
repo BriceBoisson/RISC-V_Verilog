@@ -1,6 +1,11 @@
 import re
+import sys
 
-source_code = open('test.S', 'r')
+if len(sys.argv) != 3:
+    print("Usage: python3 gen_test.py <path> <filename>")
+    exit(1)
+
+source_code = open(sys.argv[1] + "/" + sys.argv[2], 'r')
 Lines = source_code.readlines()
 test_file = []
 
@@ -47,7 +52,7 @@ for line in Lines:
 
 
 # save test_file to a file named test.tmp
-with open('test.tmp', 'w') as f:
+with open(sys.argv[1] + '/test.tmp', 'w') as f:
     for item in test_file:
         f.write("%s\n" % item)
 
@@ -66,6 +71,6 @@ for line in reversed(Lines):
         break
 
 # save test_file to a file named test.tmp
-with open('test.final.tmp', 'w') as f:
+with open(sys.argv[1] + '/test.final.tmp', 'w') as f:
     for item in final_test_file:
         f.write("%s\n" % item)

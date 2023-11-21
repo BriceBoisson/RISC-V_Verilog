@@ -53,7 +53,6 @@ module tb_risc_v_cpu ();
             read_instruction_2 = $fgetc(bin_file_inputs);
             read_instruction_3 = $fgetc(bin_file_inputs);
             read_instruction_4 = $fgetc(bin_file_inputs);
-            $display("read_instruction_1: %b", read_instruction_1);
 
             if (
                 read_instruction_1[8] != 1'b1 &&
@@ -90,8 +89,6 @@ module tb_risc_v_cpu ();
                 $display("Parsing test file failed");
                 $finish;
             end
-
-            $display ("Line %d: %d:%b=%b ]", res, instruction_addr, reg_number, reg_test_value);
 
             if (test[instruction_addr][5:0] == 6'b111111) begin
                 test[instruction_addr][5:0] = reg_number;
@@ -156,7 +153,6 @@ module tb_risc_v_cpu ();
         while (!$feof(code_file_inputs))
         begin
             res = $fscanf(code_file_inputs, "%d=%d\n", reg_number, reg_test_value);
-            $display ("Line %d: %b=%b ]", res, reg_number, reg_test_value);
             if (res != 2) begin     // If fscanf failed, the test file structure is wrong, then exit
                 $display("Parsing test file failed");
                 $finish;
