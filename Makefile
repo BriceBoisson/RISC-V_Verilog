@@ -1,11 +1,8 @@
-all: simulation
+all:
 	$(MAKE) -C sim $@
 
-debug: simulation
+debug:
 	$(MAKE) -C sim $@
-
-simulation:
-	./scripts/gen_simu_do.sh $(TARGET) $(WAVE)
 
 clean:
 	rm -rf sim/work
@@ -14,7 +11,7 @@ clean:
 	rm -rf transcript
 	rm -rf sim/vsim.wlf
 	rm -rf sim/simu.do
-	rm -rf tb/test_source_code/**/*.bin
-	rm -rf tb/test_source_code/**/*.elf
-	rm -rf tb/test_source_code/**/*.o
-	rm -rf tb/test_source_code/**/*.tmp
+	rm -rf sim/*.bin
+	rm -rf sim/*.elf
+	rm -rf sim/*.o
+	rm -rf sim/*.tmp
