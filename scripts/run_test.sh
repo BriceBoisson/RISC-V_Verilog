@@ -8,6 +8,9 @@ TEST_BENCH="${1%-*}"
 TEST_FOLDER="test_source_code/tb_""$TEST_BENCH"
 TEST_FILE=$(echo "${1}" | awk -F'-' '{if (NF>1) {print $NF}}')
 
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
 TEST_BENCH_PATH="$TEST_BENCH_FOLDER""/tb_""$TEST_BENCH"
 if [ ! -f "$TEST_BENCH_PATH"".v" ]; then
     echo "testbench: ""$TEST_BENCH_PATH"": does not exit"
@@ -17,6 +20,9 @@ fi
 run_test ()
 {
     TEST_FILE_PATH=$1
+
+    echo "$BOLD==========   $TEST_BENCH - $(basename $TEST_FILE_PATH .S)   ==========$NORMAL"
+
     if [ ! -f "$TEST_FILE_PATH" ]; then
         echo "test file: ""$TEST_FILE_PATH"": does not exit"
         exit 1
@@ -25,6 +31,7 @@ run_test ()
     ./${SCRIPT_FOLDER}/get_bin.sh $TEST_FILE_PATH
     python3 ./${SCRIPT_FOLDER}/gen_test.py $TEST_FILE_PATH
 
+
     if [ -z $2 ]; then
         # display only if line contains '[FAIL]' or '[PASS]'
         vsim -c -do "do simu.do; quit -f" >& /dev/null # | tr -cd '[:print:]\t\n' | print_result # print_result #| sed -n 's/^# \(.*\[FAIL\|\PASS\].*\)/\1/p'
@@ -32,7 +39,7 @@ run_test ()
         vsim -do "do simu.do"
     fi
 
-    print_result $(basename $TEST_FILE_PATH .S)
+    print_result "$TEST_BENCH-$(basename $TEST_FILE_PATH .S)"
 }
 
 print_result ()
@@ -63,12 +70,13 @@ print_result ()
         fi
     done < ./transcript
 
-    bold=$(tput bold)
-    normal=$(tput sgr0)
-    echo -e "[\033[0;34m$bold$1$normal\033[0m]$bold Test: $nb_test | Passed: $normal\033[0;32m$bold$nb_pass$normal\033[0m$bold | Failed: $normal\033[0;31m$bold$nb_fail$normal\033[0m"
+    echo -e "[\033[0;34m$BOLD$1$NORMAL\033[0m]$BOLD Test: $nb_test | Passed: $NORMAL\033[0;32m$BOLD$nb_pass$NORMAL\033[0m$BOLD | Failed: $NORMAL\033[0;31m$BOLD$nb_fail$NORMAL\033[0m"
 }
 
 if [ -z "$TEST_FILE" ] || [ "$TEST_FILE" = "all" ]; then
+
+    echo "$BOLD==========   $TEST_BENCH - Test Bench   ==========$NORMAL"
+
     ./${SCRIPT_FOLDER}/gen_simu_do.sh "$TEST_BENCH"
 
     if [ -z $2 ]; then
@@ -77,7 +85,7 @@ if [ -z "$TEST_FILE" ] || [ "$TEST_FILE" = "all" ]; then
         vsim -do "do simu.do"
     fi
 
-    print_result $TEST_BENCH
+    print_result "$TEST_BENCH-TestBench"
 fi
 
 if [ ! -z "$TEST_FILE" ]; then
