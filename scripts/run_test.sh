@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -rf runtime_test.tmp final_test.tmp
+rm -rf work runtime_test.tmp final_test.tmp
 
 SCRIPT_FOLDER="./../scripts"
 TEST_BENCH_FOLDER="./../tb"
