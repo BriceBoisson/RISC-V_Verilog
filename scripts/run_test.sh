@@ -21,6 +21,8 @@ run_test ()
 {
     TEST_FILE_PATH=$1
 
+    rm -rf work transcript
+
     echo
     echo "$BOLD==========   $TEST_BENCH - $(basename $TEST_FILE_PATH .S)   ==========$NORMAL"
 
