@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -rf work runtime_test.tmp final_test.tmp
+rm -rf runtime_test.tmp final_test.tmp
 
 SCRIPT_FOLDER="./../scripts"
 TEST_BENCH_FOLDER="./../tb"
@@ -21,6 +21,7 @@ run_test ()
 {
     TEST_FILE_PATH=$1
 
+    echo
     echo "$BOLD==========   $TEST_BENCH - $(basename $TEST_FILE_PATH .S)   ==========$NORMAL"
 
     if [ ! -f "$TEST_FILE_PATH" ]; then
@@ -65,8 +66,8 @@ print_result ()
         elif [[ $line == *"[PASS]"* ]]; then
             ((nb_pass++))
             ((nb_test++))
-        elif [[ $line == *"\*\* Warning"* ]]; then
-            echo "$line" | cut -c 3-
+        elif [[ $line == *"** Warning"* ]]; then
+            echo "$line" | cut -c 6-
         fi
     done < ./transcript
 
@@ -75,6 +76,7 @@ print_result ()
 
 if [ -z "$TEST_FILE" ] || [ "$TEST_FILE" = "all" ]; then
 
+    echo
     echo "$BOLD==========   $TEST_BENCH - Test Bench   ==========$NORMAL"
 
     ./${SCRIPT_FOLDER}/gen_simu_do.sh "$TEST_BENCH"
@@ -104,5 +106,7 @@ if [ ! -z "$TEST_FILE" ]; then
         run_test "$TEST_BENCH_FOLDER""/""$TEST_FOLDER""/"$TEST_FILE".S" "$2"
     fi
 fi
+
+echo
 
 exit 0
