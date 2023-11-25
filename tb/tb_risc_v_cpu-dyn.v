@@ -22,6 +22,8 @@ module tb_risc_v_cpu ();
     integer curent_addr;
     integer res;
     reg [8:0] dump;
+    reg [50*8:1] message;
+    integer size;
 
     risc_v_cpu risc_v_cpu (
         .clock(clk),
@@ -113,29 +115,29 @@ module tb_risc_v_cpu ();
                 `next_cycle
                 if (test[curent_addr][5:0] != 6'b111111) begin
                     if (test[curent_addr][5:0] < 6'b100000) begin
-                        `assert_no_wait("TEST - REG", risc_v_cpu.registers_bank.registers[test[curent_addr][4:0]], test[curent_addr][37:6])
+                        `assert_no_wait_reg("RUNTIME", curent_addr, test[curent_addr][5:0], risc_v_cpu.registers_bank.registers[test[curent_addr][4:0]], test[curent_addr][37:6])
                     end else if (test[curent_addr][5:0] == 6'b100000) begin
-                        `assert_no_wait("TEST - PC", risc_v_cpu.program_counter.pc_addr, test[curent_addr][37:6])
+                        `assert_no_wait_pc("RUNTIME", curent_addr, risc_v_cpu.program_counter.pc_addr, test[curent_addr][37:6])
                     end else if (test[curent_addr][5:0] > 6'b100000) begin
-                        `assert_no_wait("TEST - MEM", risc_v_cpu.memory.memory[test[curent_addr][5:0]], test[curent_addr][37:6])
+                        `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][5:0], risc_v_cpu.memory.memory[test[curent_addr][5:0]], test[curent_addr][37:6])
                     end
                 end
                 if (test[curent_addr][43:38] != 6'b111111) begin
                     if (test[curent_addr][43:38] < 6'b100000) begin
-                        `assert_no_wait("TEST - REG", risc_v_cpu.registers_bank.registers[test[curent_addr][42:38]], test[curent_addr][75:44])
+                        `assert_no_wait_reg("RUNTIME", curent_addr, test[curent_addr][43:38], risc_v_cpu.registers_bank.registers[test[curent_addr][42:38]], test[curent_addr][75:44])
                     end else if (test[curent_addr][43:38] == 6'b100000) begin
-                        `assert_no_wait("TEST - PC", risc_v_cpu.program_counter.pc_addr, test[curent_addr][75:44])
+                        `assert_no_wait_pc("RUNTIME", curent_addr, risc_v_cpu.program_counter.pc_addr, test[curent_addr][75:44])
                     end else if (test[curent_addr][43:38] > 6'b100000) begin
-                        `assert_no_wait("TEST - MEM", risc_v_cpu.memory.memory[test[curent_addr][43:38]], test[curent_addr][75:44])
+                        `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][43:38], risc_v_cpu.memory.memory[test[curent_addr][43:38]], test[curent_addr][75:44])
                     end
                 end
                 if (test[curent_addr][81:76] != 6'b111111) begin
                     if (test[curent_addr][81:76] < 6'b100000) begin
-                        `assert_no_wait("TEST - REG", risc_v_cpu.registers_bank.registers[test[curent_addr][80:76]], test[curent_addr][81:76])
+                        `assert_no_wait_reg("RUNTIME", curent_addr, test[curent_addr][81:76], risc_v_cpu.registers_bank.registers[test[curent_addr][80:76]], test[curent_addr][81:76])
                     end else if (test[curent_addr][81:76] == 6'b100000) begin
-                        `assert_no_wait("TEST - PC", risc_v_cpu.program_counter.pc_addr, test[curent_addr][113:83])
+                        `assert_no_wait_pc("RUNTIME", curent_addr, risc_v_cpu.program_counter.pc_addr, test[curent_addr][113:83])
                     end else if (test[curent_addr][81:76] > 6'b100000) begin
-                        `assert_no_wait("TEST - MEM", risc_v_cpu.memory.memory[test[curent_addr][81:76]], test[curent_addr][81:76])
+                        `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][81:76], risc_v_cpu.memory.memory[test[curent_addr][81:76]], test[curent_addr][81:76])
                     end
                 end
             end
@@ -159,11 +161,11 @@ module tb_risc_v_cpu ();
             end
 
             if (reg_number < 6'b100000) begin
-                `assert_no_wait("FINAL TEST - REG", risc_v_cpu.registers_bank.registers[reg_number[4:0]], reg_test_value)
+                `assert_no_wait_reg("FINAL", 1'bx, reg_number, risc_v_cpu.registers_bank.registers[reg_number[4:0]], reg_test_value)
             end else if (reg_number == 6'b100000) begin
-                `assert_no_wait("FINAL TEST- PC", risc_v_cpu.program_counter.pc_addr, reg_test_value)
+                `assert_no_wait_pc("FINAL", 1'bx, risc_v_cpu.program_counter.pc_addr, reg_test_value)
             end else if (reg_number > 6'b100000) begin
-                `assert_no_wait("FINAL TEST - MEM", risc_v_cpu.memory.memory[test[curent_addr][5:0]], reg_test_value)
+                `assert_no_wait_mem("FINAL", 1'bx, reg_number, risc_v_cpu.memory.memory[test[curent_addr][5:0]], reg_test_value)
             end
         end
         
