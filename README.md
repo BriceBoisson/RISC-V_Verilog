@@ -7,3 +7,17 @@ This CPU will implement the RV32I ISA, with the following goals:
 - [ ] Multi cycle CPU
 - [ ] Pipelining
 - [ ] (Bonus) RISC-V privileged ISA
+
+# How to Run the Test
+
+Use the command :\
+```make TARGET=<test_bench>-<sub_test>```
+
+With `test_bench` among the listed test bench in the `tb` directory and `sub_test` a source code file in the `tb/test_source_code/tb_<test_bench>` directory.
+```make TARGET=risc_v_cpu-test```
+
+You can remove the dash and `sub_test` argument to run only the non source code based test.
+```make TARGET=risc_v_cpu```
+
+Or use `all` as a `sub_test` to run all test associated to a `test_bench`.
+```make TARGET=risc_v_cpu-all```
