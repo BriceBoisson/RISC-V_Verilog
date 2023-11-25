@@ -92,6 +92,8 @@ module tb_risc_v_cpu ();
                 $finish;
             end
 
+            instruction_addr = instruction_addr / 4;
+
             if (test[instruction_addr][5:0] == 6'b111111) begin
                 test[instruction_addr][5:0] = reg_number;
                 test[instruction_addr][37:6] = reg_test_value;
@@ -111,7 +113,7 @@ module tb_risc_v_cpu ();
 
         for (i = 0; i < 100; i = i + 1) begin
             if (test[risc_v_cpu.program_counter.pc_addr][5:0] != 6'b111111) begin
-                curent_addr = risc_v_cpu.program_counter.pc_addr;
+                curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
                 `next_cycle
                 if (test[curent_addr][5:0] != 6'b111111) begin
                     if (test[curent_addr][5:0] < 6'b100000) begin
