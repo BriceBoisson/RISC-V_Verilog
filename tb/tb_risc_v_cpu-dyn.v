@@ -112,7 +112,7 @@ module tb_risc_v_cpu ();
         /* Run The Program */
 
         for (i = 0; i < 100; i = i + 1) begin
-            if (test[risc_v_cpu.program_counter.pc_addr][5:0] != 6'b111111) begin
+            if (test[risc_v_cpu.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
                 curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
                 `next_cycle
                 if (test[curent_addr][5:0] != 6'b111111) begin
