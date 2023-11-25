@@ -12,9 +12,9 @@ test_file = []
 def get_test(test, instr_addr, final = False):
     result = ""
 
-    pattern_r = re.compile(r'R\[(\d+)\]=(\d+)')
+    pattern_r = re.compile(r'R\[(\d+)\]=([+-]?\d+)')
     pattern_pc = re.compile(r'PC=(\d+)')
-    pattern_mem = re.compile(r'MEM\[(\d+)\]=(\d+)')
+    pattern_mem = re.compile(r'MEM\[(\d+)\]=([+-]?\d+)')
 
     # Use the patterns to search for matches in the input string
     match_r = pattern_r.search(test)
@@ -40,12 +40,14 @@ def get_test(test, instr_addr, final = False):
 
 instr_addr = 0
 for line in Lines:
-    if line.isspace() or ':' in line or line[0] == '#':
+    if line.isspace() or ':' in line or line[0] == '#' or line[0:2] == '/*' or line[0:2] == '*/' or line[0:2] == ' *':
         continue
     elif '#' in line:
+        print(line)
         tests = re.split(r'\s|,', line[line.find('#') + 1:])
         for test in tests:
             new_test = get_test(test, instr_addr)
+            print(new_test)
             if new_test != "":
                 test_file.append(new_test)
     instr_addr += 4

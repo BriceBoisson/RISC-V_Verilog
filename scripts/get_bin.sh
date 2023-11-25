@@ -18,10 +18,10 @@ NAME=$(basename $1)
 NAME=${NAME%.*}
 FOLDER=$(dirname $1)
 
-riscv32-unknown-elf-as -march=rv32i -mabi=ilp32 ${FOLDER}/${NAME}.S -o ${NAME}.o
-riscv32-unknown-elf-ld -Ttext=0x0 ${NAME}.o -o ${NAME}.elf
-riscv32-unknown-elf-objcopy -O binary ${NAME}.elf ${NAME}.bin
+riscv32-unknown-elf-as -march=rv32i -mabi=ilp32 ${FOLDER}/${NAME}.S -o test.o
+riscv32-unknown-elf-ld -Ttext=0x0 test.o -o test.elf
+riscv32-unknown-elf-objcopy -O binary test.elf test.bin
 
-rm -rf ${NAME}.o ${NAME}.elf
+rm -rf test.o test.elf
 
 exit 0
