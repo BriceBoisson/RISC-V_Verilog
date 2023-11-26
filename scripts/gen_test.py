@@ -43,11 +43,9 @@ for line in Lines:
     if line.isspace() or ':' in line or line[0] == '#' or line[0:2] == '/*' or line[0:2] == '*/' or line[0:2] == ' *':
         continue
     elif '#' in line:
-        print(line)
         tests = re.split(r'\s|,', line[line.find('#') + 1:])
         for test in tests:
             new_test = get_test(test, instr_addr)
-            print(new_test)
             if new_test != "":
                 test_file.append(new_test)
     instr_addr += 4
