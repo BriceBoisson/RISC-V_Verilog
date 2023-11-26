@@ -98,7 +98,6 @@ module tb_risc_v_cpu ();
                 test[instruction_addr][5:0] = reg_number;
                 test[instruction_addr][37:6] = reg_test_value;
             end else if (test[instruction_addr][43:38] == 6'b111111) begin
-                $display ("1");
                 test[instruction_addr][43:38] = reg_number;
                 test[instruction_addr][75:44] = reg_test_value;
             end else if (test[instruction_addr][81:76] == 6'b111111) begin
@@ -142,9 +141,9 @@ module tb_risc_v_cpu ();
                         `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][81:76], test[curent_addr][81:76], risc_v_cpu.memory.memory[test[curent_addr][81:76]])
                     end
                 end
-            end
-            else
+            end else begin
                 `next_cycle
+            end
         end
 
         /* Test State After Execution */
