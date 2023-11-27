@@ -23,14 +23,17 @@ ble a1, a0, forth
 add a0, a0, 4 # R[10]=7
 j second
 forth:
-addi a1, zero, 4294967295 # R[11]=4294967295
+addi a1, zero, 4294967295 # R[11]=4294967295, R[11]=-1
 bltu a0, a1, fifth
 addi a0, a0, 5
 fifth:
 addi a1, zero, 16 # R[11]=16
-bleu a1, a0, end
+bleu a1, a0, sixth
 add a0, a0, 6 # R[10]=16
 j forth
+sixth:
+blt a0, a1, end
+addi a0, a0, 7 # R[10]=23
 end:
 
-# R[10]=16
+# R[10]=23
