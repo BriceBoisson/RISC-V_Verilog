@@ -36,8 +36,7 @@ run_test ()
 
 
     if [ -z $2 ]; then
-        # display only if line contains '[FAIL]' or '[PASS]'
-        vsim -c -do "do simu.do; quit -f" >& /dev/null # | tr -cd '[:print:]\t\n' | print_result # print_result #| sed -n 's/^# \(.*\[FAIL\|\PASS\].*\)/\1/p'
+        vsim -c -do "do simu.do; quit -f" >& /dev/null
     else
         vsim -do "do simu.do"
     fi
@@ -49,7 +48,6 @@ print_result ()
 {
     while read line; do
         if [[ $line = *"# Errors: "* ]]; then
-            # Errors: 0, Warnings: 0 - get only the number of errors
             if [ $(echo "$line" | sed 's/^# Errors: \([[:digit:]]*\).*/\1/') -ne 0 ]; then
                 cat ./transcript
                 return 1

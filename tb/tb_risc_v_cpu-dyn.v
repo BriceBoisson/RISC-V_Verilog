@@ -88,21 +88,24 @@ module tb_risc_v_cpu ();
         begin
             res = $fscanf(code_file_inputs, "%d:%d=%d\n", instruction_addr, reg_number, reg_test_value);
             if (res != 3) begin     // If fscanf failed, the test file structure is wrong, then exit
-                $display("Parsing test file failed");
-                $finish;
-            end
+                res = $fgetc(code_file_inputs); // Check if the file is empty
+                if (!$feof(code_file_inputs)) begin
+                    $display("Parsing test file failed");
+                    $finish;
+                end
+            end else begin
+                instruction_addr = instruction_addr / 4;
 
-            instruction_addr = instruction_addr / 4;
-
-            if (test[instruction_addr][5:0] == 6'b111111) begin
-                test[instruction_addr][5:0] = reg_number;
-                test[instruction_addr][37:6] = reg_test_value;
-            end else if (test[instruction_addr][43:38] == 6'b111111) begin
-                test[instruction_addr][43:38] = reg_number;
-                test[instruction_addr][75:44] = reg_test_value;
-            end else if (test[instruction_addr][81:76] == 6'b111111) begin
-                test[instruction_addr][81:76] = reg_number;
-                test[instruction_addr][113:83] = reg_test_value;
+                if (test[instruction_addr][5:0] == 6'b111111) begin
+                    test[instruction_addr][5:0] = reg_number;
+                    test[instruction_addr][37:6] = reg_test_value;
+                end else if (test[instruction_addr][43:38] == 6'b111111) begin
+                    test[instruction_addr][43:38] = reg_number;
+                    test[instruction_addr][75:44] = reg_test_value;
+                end else if (test[instruction_addr][81:76] == 6'b111111) begin
+                    test[instruction_addr][81:76] = reg_number;
+                    test[instruction_addr][113:83] = reg_test_value;
+                end
             end
         end
 
@@ -110,7 +113,7 @@ module tb_risc_v_cpu ();
 
         /* Run The Program */
 
-        for (i = 0; i < 100; i = i + 1) begin
+        for (i = 0; i < 200; i = i + 1) begin
             if (test[risc_v_cpu.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
                 curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
                 `next_cycle
@@ -157,16 +160,19 @@ module tb_risc_v_cpu ();
         begin
             res = $fscanf(code_file_inputs, "%d=%d\n", reg_number, reg_test_value);
             if (res != 2) begin     // If fscanf failed, the test file structure is wrong, then exit
-                $display("Parsing test file failed");
-                $finish;
-            end
-
-            if (reg_number < 6'b100000) begin
-                `assert_no_wait_reg("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.registers_bank.registers[reg_number[4:0]])
-            end else if (reg_number == 6'b100000) begin
-                `assert_no_wait_pc("FINAL", 1'bx, reg_test_value, risc_v_cpu.program_counter.pc_addr)
-            end else if (reg_number > 6'b100000) begin
-                `assert_no_wait_mem("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.memory.memory[test[curent_addr][5:0]])
+                res = $fgetc(code_file_inputs); // Check if the file is empty
+                if (!$feof(code_file_inputs)) begin
+                    $display("Parsing test file failed");
+                    $finish;
+                end
+            end else begin
+                if (reg_number < 6'b100000) begin
+                    `assert_no_wait_reg("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.registers_bank.registers[reg_number[4:0]])
+                end else if (reg_number == 6'b100000) begin
+                    `assert_no_wait_pc("FINAL", 1'bx, reg_test_value, risc_v_cpu.program_counter.pc_addr)
+                end else if (reg_number > 6'b100000) begin
+                    `assert_no_wait_mem("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.memory.memory[test[curent_addr][5:0]])
+                end
             end
         end
         
