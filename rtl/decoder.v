@@ -106,7 +106,7 @@ endfunction
                 alu_src = 1;
                 alu_func = get_alu_func_imm(instruction[14:12], instruction[30]);
                 mem_we = 0;
-                mem_func_in = instruction[13:12];
+                mem_func_in = 2'b00;
                 mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;
@@ -140,7 +140,7 @@ endfunction
                 alu_src = 1;
                 alu_func = 3'b000;
                 mem_we = 1;
-                mem_func_in = 2'b00;
+                mem_func_in = instruction[13:12];
                 mem_func_out = 3'b000;
                 pc_is_branch = 2'b00;
                 pc_is_jmp = 0;

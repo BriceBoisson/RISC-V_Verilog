@@ -113,7 +113,7 @@ module tb_risc_v_cpu ();
 
         /* Run The Program */
 
-        for (i = 0; i < 200; i = i + 1) begin
+        for (i = 0; i < 300; i = i + 1) begin
             if (test[risc_v_cpu.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
                 curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
                 `next_cycle
@@ -137,11 +137,11 @@ module tb_risc_v_cpu ();
                 end
                 if (test[curent_addr][81:76] != 6'b111111) begin
                     if (test[curent_addr][81:76] < 6'b100000) begin
-                        `assert_no_wait_reg("RUNTIME", curent_addr, test[curent_addr][81:76], test[curent_addr][81:76], risc_v_cpu.registers_bank.registers[test[curent_addr][80:76]])
+                        `assert_no_wait_reg("RUNTIME", curent_addr, test[curent_addr][81:76], test[curent_addr][113:83], risc_v_cpu.registers_bank.registers[test[curent_addr][80:76]])
                     end else if (test[curent_addr][81:76] == 6'b100000) begin
                         `assert_no_wait_pc("RUNTIME", curent_addr, test[curent_addr][113:83], risc_v_cpu.program_counter.pc_addr)
                     end else if (test[curent_addr][81:76] > 6'b100000) begin
-                        `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][81:76], test[curent_addr][81:76], risc_v_cpu.memory.memory[test[curent_addr][81:76]])
+                        `assert_no_wait_mem("RUNTIME", curent_addr, test[curent_addr][81:76], test[curent_addr][113:83], risc_v_cpu.memory.memory[test[curent_addr][81:76]])
                     end
                 end
             end else begin
