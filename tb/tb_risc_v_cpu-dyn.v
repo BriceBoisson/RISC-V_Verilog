@@ -15,7 +15,7 @@ module tb_risc_v_cpu ();
     reg [8:0]  read_instruction_3;
     reg [8:0]  read_instruction_4;
 
-    reg [113:0]  test [0:100];
+    reg [113:0]  test [0:256];
     integer      instruction_addr;
     reg [5:0]    reg_number;
     reg [31:0]   reg_test_value;
@@ -80,7 +80,7 @@ module tb_risc_v_cpu ();
         end
 
         i = 0;
-        for (i = 0; i < 100; i = i + 1) begin   // Fill test data structure of 1,
+        for (i = 0; i < 256; i = i + 1) begin   // Fill test data structure of 1,
             test[i] = {114{1'b1}};              // to represent the empty state
         end
         
@@ -113,7 +113,7 @@ module tb_risc_v_cpu ();
 
         /* Run The Program */
 
-        for (i = 0; i < 300; i = i + 1) begin
+        for (i = 0; i < 10000; i = i + 1) begin
             if (test[risc_v_cpu.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
                 curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
                 `next_cycle

@@ -8,7 +8,7 @@ module memory (input             clock, reset,
 
     `include "mem_func.vh"
     
-    reg [7:0] memory [127:0];
+    reg [7:0] memory [1023:0];
 
     always @(posedge clock, posedge reset) begin
         if (reset == 1)

@@ -7,24 +7,37 @@ li sp, 0
 j test
 
 mult:
-sw a1, 4(sp)
-sw a2, 8(sp)
-addi sp, sp, 8
-li a0, 0
-li t0, 1
+sw ra, 4(sp)
+sw a1, 8(sp)
+sw a2, 12(sp)
+sw s0, 16(sp)
+sw s1, 20(sp)
+sw s2, 24(sp)
+sw s3, 28(sp)
+addi sp, sp, 28
+add s1, a1, zero
+add s2, a2, zero
+li s0, 0
+li s3, 1
 mult_loop_start:
-blt a1, t0, mult_loop_end
-and t1, a1, 1
-beq t1, zero, mult_even_compute
-add a0, a0, a2
+blt s1, s3, mult_loop_end
+and t0, s1, 1
+beq t0, zero, mult_even_compute
+add s0, s0, s2
 mult_even_compute:
-add a2, a2, a2
-srl a1, a1, 1
+add s2, s2, s2
+srl s1, s1, 1
 j mult_loop_start
 mult_loop_end:
-lw a2, 0(sp)
-lw a1, -4(sp)
-addi sp, sp, -8
+add a0, s0, zero
+lw s3, 0(sp)
+lw s2, -4(sp)
+lw s1, -8(sp)
+lw s0, -12(sp)
+lw a2, -16(sp)
+lw a1, -20(sp)
+lw ra, -24(sp)
+addi sp, sp, -28
 jalr ra, ra, 0
 
 test:
