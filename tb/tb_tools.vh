@@ -29,6 +29,15 @@
     end else \
         $display("\033[0;32m[PASS]\033[0m %s - INSTR: %0d - MEM[%0d] = %0d", message, instr_addr, mem_addr, expected);
 
+`define test_result(message, curent_addr, addr_range, test_range) \
+    if (test[curent_addr][addr_range:addr_range - 5] < 6'b100000) begin \
+        `assert_no_wait_reg(message, curent_addr, test[curent_addr][addr_range:addr_range - 5], test[curent_addr][test_range:test_range - 31], risc_v_cpu.registers_bank.registers[test[curent_addr][addr_range - 1:addr_range - 5]]) \
+    end else if (test[curent_addr][addr_range:addr_range - 5] == 6'b100000) begin \
+        `assert_no_wait_pc(message, curent_addr, test[curent_addr][test_range:test_range - 31], risc_v_cpu.program_counter.pc_addr) \
+    end else if (test[curent_addr][addr_range:addr_range - 5] > 6'b100000) begin \
+        `assert_no_wait_mem(message, curent_addr, test[curent_addr][addr_range:addr_range - 5], test[curent_addr][test_range:test_range - 31], risc_v_cpu.memory.memory[test[curent_addr][addr_range:addr_range - 5]]) \
+    end
+
 `define end_message $display("\033[0;32mIf no \033[0mFAIL\033[0;32m messages, all tests passed!\033[0m");
 
 `define next_cycle \
