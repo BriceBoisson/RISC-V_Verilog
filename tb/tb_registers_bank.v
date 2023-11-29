@@ -2,6 +2,7 @@
 `include "tb_tools.vh"
 
 module tb_registers_bank ();
+    integer     i;
     reg         clk;
     reg         reset;
     reg         we;
