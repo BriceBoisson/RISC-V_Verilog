@@ -32,8 +32,7 @@ run_test ()
     fi
 
     ./${SCRIPT_FOLDER}/get_bin.sh $TEST_FILE_PATH
-    python3 ./${SCRIPT_FOLDER}/gen_test.py $TEST_FILE_PATH
-
+    NB_TEST=$(python3 ./${SCRIPT_FOLDER}/gen_test.py $TEST_FILE_PATH | sed -n 's/^Generated \([[:digit:]]*\) tests$/\1/p')
 
     if [ -z $2 ]; then
         vsim -c -do "do simu.do; quit -f" >& /dev/null
@@ -41,7 +40,7 @@ run_test ()
         vsim -do "do simu.do"
     fi
 
-    print_result "$TEST_BENCH-$(basename $TEST_FILE_PATH .S)"
+    print_result "$TEST_BENCH-$(basename $TEST_FILE_PATH .S)" "$NB_TEST"
 }
 
 print_result ()
@@ -70,6 +69,10 @@ print_result ()
             echo "$line" | cut -c 6-
         fi
     done < ./transcript
+
+    if [ ! -z $2 ] && [ $2 -ne 0 ] && [ $nb_test -lt $2 ]; then
+        echo -e "\033[0;31m$BOLD"Warning:"$NORMAL\033[0m Only $BOLD$nb_test$NORMAL tests were executed, at least $BOLD$2$NORMAL were expected."
+    fi
 
     echo -e "[\033[0;34m$BOLD$1$NORMAL\033[0m]$BOLD Test: $nb_test | Passed: $NORMAL\033[0;32m$BOLD$nb_pass$NORMAL\033[0m$BOLD | Failed: $NORMAL\033[0;31m$BOLD$nb_fail$NORMAL\033[0m"
 }
