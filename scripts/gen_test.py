@@ -8,6 +8,7 @@ if len(sys.argv) != 2:
 source_code = open(sys.argv[1], 'r')
 Lines = source_code.readlines()
 test_file = []
+nb_test = 0
 
 def get_test(test, instr_addr, final = False):
     result = ""
@@ -48,6 +49,7 @@ for line in Lines:
             new_test = get_test(test, instr_addr)
             if new_test != "":
                 test_file.append(new_test)
+                nb_test += 1
     instr_addr += 4
 
 
@@ -67,6 +69,7 @@ for line in reversed(Lines):
             new_test = get_test(test, instr_addr, True)
             if new_test != "":
                 final_test_file.append(new_test)
+                nb_test += 1
     else:
         break
 
@@ -74,3 +77,5 @@ for line in reversed(Lines):
 with open('final_test.tmp', 'w') as f:
     for item in final_test_file:
         f.write("%s\n" % item)
+
+print(f"Generated {nb_test} tests")
