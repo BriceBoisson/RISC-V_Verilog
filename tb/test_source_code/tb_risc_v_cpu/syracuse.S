@@ -46,7 +46,7 @@ sw a1, 8(sp)
 sw s0, 12(sp)
 sw s1, 16(sp)
 sw s2, 20(sp)
-sw s2, 24(sp)
+sw s3, 24(sp)
 addi sp, sp, 24
 add s1, a1, zero
 li s0, 0
