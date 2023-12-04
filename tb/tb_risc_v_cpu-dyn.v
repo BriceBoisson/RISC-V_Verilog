@@ -155,7 +155,7 @@ module tb_risc_v_cpu ();
                 end else if (reg_number == 6'b100000) begin
                     `assert_no_wait_pc("FINAL", 1'bx, reg_test_value, risc_v_cpu.program_counter.pc_addr)
                 end else if (reg_number > 6'b100000) begin
-                    `assert_no_wait_mem("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.memory.memory[test[curent_addr][5:0]])
+                    `assert_no_wait_mem("FINAL", 1'bx, reg_number - 6'b100001, reg_test_value, {risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 3], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 2], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 1], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4]})
                 end
             end
         end
