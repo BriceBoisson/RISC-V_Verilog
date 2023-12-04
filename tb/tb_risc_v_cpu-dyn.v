@@ -112,8 +112,8 @@ module tb_risc_v_cpu ();
         /* Run The Program */
 
         for (i = 0; i < 10000; i = i + 1) begin
-            if (test[risc_v_cpu.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
-                curent_addr = risc_v_cpu.program_counter.pc_addr / 4;
+            if (test[risc_v_cpu.module_program_counter.program_counter.pc_addr / 4][5:0] != 6'b111111) begin
+                curent_addr = risc_v_cpu.module_program_counter.program_counter.pc_addr / 4;
                 `next_cycle
 
                 /* Test State During Execution */
@@ -151,9 +151,9 @@ module tb_risc_v_cpu ();
 
                 /* Test State After Execution */
                 if (reg_number < 6'b100000) begin
-                    `assert_no_wait_reg("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.registers_bank.registers[reg_number[4:0]])
+                    `assert_no_wait_reg("FINAL", 1'bx, reg_number, reg_test_value, risc_v_cpu.module_registers_bank.registers_bank.registers[reg_number[4:0]])
                 end else if (reg_number == 6'b100000) begin
-                    `assert_no_wait_pc("FINAL", 1'bx, reg_test_value, risc_v_cpu.program_counter.pc_addr)
+                    `assert_no_wait_pc("FINAL", 1'bx, reg_test_value, risc_v_cpu.module_program_counter.program_counter.pc_addr)
                 end else if (reg_number > 6'b100000) begin
                     `assert_no_wait_mem("FINAL", 1'bx, reg_number - 6'b100001, reg_test_value, {risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 3], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 2], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4 + 1], risc_v_cpu.memory.memory[(test[curent_addr][5:0] - 6'b100001) * 4]})
                 end

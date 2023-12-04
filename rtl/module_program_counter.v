@@ -9,7 +9,7 @@ module module_program_counter (input         clock, reset,
 
     mux2_1 #(2) mux2_pc_sel_branch (
         .in_1(is_branch),
-        .in_2({1'b0, (alu_not ? (~alu_out != 32'b0 ? 1'b1 : 1'b0) : (alu_out != 32'b0 ? 1'b1 : 1'b0))}),
+        .in_2({1'b0, (alu_not ? (alu_out == 32'b0 ? 1'b1 : 1'b0) : (alu_out != 32'b0 ? 1'b1 : 1'b0))}),
         .sel(is_jmp),
         .out(sel_in)
     );
