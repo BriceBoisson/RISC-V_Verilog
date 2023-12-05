@@ -2,7 +2,6 @@
 `include "tb_tools.vh"
 
 module tb_registers_bank ();
-    integer     i;
     reg         clk;
     reg         reset;
     reg         we;
@@ -12,6 +11,8 @@ module tb_registers_bank ();
     reg  [31:0] data_in;
     wire [31:0] data_out_a;
     wire [31:0] data_out_b;
+
+    integer     i;
 
     registers_bank registers_bank (
         .clock(clk),
@@ -26,12 +27,6 @@ module tb_registers_bank ();
     );
 
     initial begin
-        reset = 1'b1;
-        #10
-        reset = 1'b0;
-    end
-
-    initial begin
         clk = 1'b0;
         for (i = 0; i < 100; i = i + 1) begin
             #1 clk = ~clk;
@@ -40,11 +35,14 @@ module tb_registers_bank ();
 
     initial begin
 
+        reset = 1'b1;
         we = 1'b0;
         sel_in = 5'b00000;
         sel_out_a = 5'b00000;
         sel_out_b = 5'b00000;
-        data_in = 32'b0;
+        data_in = 32'b0;        
+        #10
+        reset = 1'b0;
         `assert("registers_bank we: 0, sel_in: 0, sel_out_a: 0, sel_out_b: 0, data_in: 0", data_out_a, 0)
         we = 1'b1;
         data_in = 32'b1;
